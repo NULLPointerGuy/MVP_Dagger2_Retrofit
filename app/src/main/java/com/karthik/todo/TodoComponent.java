@@ -4,7 +4,6 @@ import com.karthik.todo.AddTodo.DI.AddTodoComponent;
 import com.karthik.todo.AddTodo.DI.AddTodoModule;
 import com.karthik.todo.Todo.DI.TodoDashComponent;
 import com.karthik.todo.Todo.DI.TodoModule;
-import com.karthik.todo.Todo.TodoActivity;
 
 import javax.inject.Singleton;
 

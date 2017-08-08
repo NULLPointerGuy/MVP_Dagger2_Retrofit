@@ -44,6 +44,7 @@ public class AddTodoActivity extends AppCompatActivity
         addTodoComponent = ((TodoApp)getApplication())
                 .getComponent()
                 .plus(new AddTodoModule(this));
+        addTodoComponent.inject(this);
     }
 
     @OnClick(R.id.save)
