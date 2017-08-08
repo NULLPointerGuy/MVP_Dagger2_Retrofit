@@ -1,6 +1,7 @@
 package com.karthik.todo.Todo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.karthik.todo.AddTodo.AddTodoActivity;
 import com.karthik.todo.R;
+import com.karthik.todo.Todo.DI.TodoDashComponent;
+import com.karthik.todo.Todo.DI.TodoModule;
+import com.karthik.todo.Todo.MVP.TodoPresenterContract;
 import com.karthik.todo.Todo.MVP.TodoViewContract;
 import com.karthik.todo.TodoApp;
 
@@ -23,20 +28,29 @@ import butterknife.OnClick;
 
 public class TodoActivity extends AppCompatActivity implements TodoViewContract{
 
+    private TodoDashComponent dashComponent;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
     @Inject
     Context context;
+    @Inject
+    TodoPresenterContract presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
-        ButterKnife.bind(this);
-        ((TodoApp)getApplication()).getComponent().inject(this);
-        setSupportActionBar(toolbar);
+        intialize();
+    }
+
+    private void intialize() {
+       dashComponent =  ((TodoApp)getApplication()).getComponent().plus(new TodoModule(this));
+       dashComponent.inject(this);
+       ButterKnife.bind(this);
+       setSupportActionBar(toolbar);
     }
 
     @Override
@@ -56,11 +70,17 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     @Override
     @OnClick(R.id.fab)
     public void onAddTodoClicked() {
-        Toast.makeText(context,"Toast from injection", Toast.LENGTH_SHORT).show();
+       presenter.onAddTodoClicked();
     }
 
     @Override
     public void openAddTodoScreen() {
+        startActivity(new Intent(this, AddTodoActivity.class));
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dashComponent = null;
     }
 }

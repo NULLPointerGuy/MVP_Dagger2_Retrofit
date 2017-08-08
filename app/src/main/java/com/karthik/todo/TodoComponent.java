@@ -1,5 +1,9 @@
 package com.karthik.todo;
 
+import com.karthik.todo.AddTodo.DI.AddTodoComponent;
+import com.karthik.todo.AddTodo.DI.AddTodoModule;
+import com.karthik.todo.Todo.DI.TodoDashComponent;
+import com.karthik.todo.Todo.DI.TodoModule;
 import com.karthik.todo.Todo.TodoActivity;
 
 import javax.inject.Singleton;
@@ -12,5 +16,6 @@ import dagger.Component;
 @Singleton
 @Component (modules = {TodoAppModule.class})
 public interface TodoComponent {
-    void inject(TodoActivity activity);
+    TodoDashComponent plus(TodoModule todoModule);
+    AddTodoComponent plus(AddTodoModule addTodoModule);
 }

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Todo</string>
     <string name="action_settings">Settings</string>
+    <string name="todo_title">Todo Title</string>
+    <string name="todo_description">Todo Description</string>
+    <string name="save">Save Todo</string>
+    <string name="todo_title_error">Please enter valid todo title</string>
+    <string name="todo_description_error">Please enter valid todo description</string>
+    <string name="add_todo">Add Todo</string>
 </resources>
