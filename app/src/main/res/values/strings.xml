@@ -8,4 +8,5 @@
     <string name="todo_description_error">Please enter valid todo description</string>
     <string name="add_todo">Add Todo</string>
     <string name="press_plus">Press the plus icon to get started</string>
+    <string name="save_success">Todo is saved successfully</string>
 </resources>

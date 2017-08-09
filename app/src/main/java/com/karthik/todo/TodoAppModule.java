@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
 
 /**
  * Created by karthikrk on 08/08/17.
@@ -30,5 +31,10 @@ public class TodoAppModule {
     @Provides @Singleton
     public SharedPreferences providesSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Provides @Singleton
+    public Realm providesRealmDb(){
+        return Realm.getDefaultInstance();
     }
 }

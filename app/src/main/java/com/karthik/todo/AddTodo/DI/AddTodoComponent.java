@@ -1,6 +1,7 @@
 package com.karthik.todo.AddTodo.DI;
 
 import com.karthik.todo.AddTodo.AddTodoActivity;
+import com.karthik.todo.AddTodo.MVP.AddTodoPresenter;
 
 import dagger.Subcomponent;
 
@@ -11,4 +12,5 @@ import dagger.Subcomponent;
 @Subcomponent (modules = {AddTodoModule.class})
 public interface AddTodoComponent{
     void inject(AddTodoActivity addTodoActivity);
+    void inject(AddTodoPresenter addTodoPresenter);
 }

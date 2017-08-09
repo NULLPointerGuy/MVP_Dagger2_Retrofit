@@ -6,4 +6,5 @@ package com.karthik.todo.AddTodo.MVP;
 
 public interface AddTodoPresenterContract {
     void saveTodo();
+    void closeDb();
 }

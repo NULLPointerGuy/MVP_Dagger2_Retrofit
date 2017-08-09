@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 /**
  * Created by karthikr on 8/8/17.
@@ -78,8 +79,31 @@ public class AddTodoActivity extends AppCompatActivity
     }
 
     @Override
+    public AddTodoComponent getAddTodoComponent() {
+        return addTodoComponent;
+    }
+
+    @Override
+    public String getTodoTitle() {
+        return todoTitle.getText().toString();
+    }
+
+    @Override
+    public String getTodoDesc() {
+        return todoDescription.getText().toString();
+    }
+
+    @Override
+    public void showSaveSuccessMessage() {
+        Toast.makeText(this,getString(R.string.save_success),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        //clean up resources.
+        presenter.closeDb();
         addTodoComponent = null;
     }
 }
