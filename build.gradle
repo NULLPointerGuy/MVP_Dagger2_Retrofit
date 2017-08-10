@@ -22,3 +22,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext{
+    BUILD_TOOL_VERSION='26.0.0'
+    BUTTERKNIFE_VERSION = '8.8.0'
+    DAGGER_VERSION = '2.10'
+}

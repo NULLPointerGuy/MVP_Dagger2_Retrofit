@@ -3,7 +3,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "${BUILD_TOOL_VERSION}"
     defaultConfig {
         applicationId "com.karthik.todo"
         minSdkVersion 21
@@ -13,26 +13,35 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "UNSPLASH_URL", '"https://api.unsplash.com/"'
+            buildConfigField "String", "UNSPLASH_API_KEY", '""'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "UNSPLASH_URL", '"https://api.unsplash.com/"'
+            buildConfigField "String", "UNSPLASH_API_KEY", '""'
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.0.0'
-    implementation 'com.android.support:design:26.0.0'
+    implementation "com.android.support:appcompat-v7:${BUILD_TOOL_VERSION}"
+    implementation "com.android.support:design:${BUILD_TOOL_VERSION}"
 
-    compile 'com.jakewharton:butterknife:8.8.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
+    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
 
-    compile "com.google.dagger:dagger:2.10"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.10"
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'javax.inject:javax.inject:1'
+
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile "com.squareup.okhttp3:logging-interceptor:3.4.1"
 
 
 

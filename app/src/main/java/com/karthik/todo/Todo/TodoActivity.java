@@ -65,6 +65,7 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     protected void onResume() {
         super.onResume();
         presenter.loadTasks();
+        presenter.getUnsplashImages();
     }
 
     private void intialize() {
