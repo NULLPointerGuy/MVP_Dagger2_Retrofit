@@ -6,4 +6,5 @@ package com.karthik.todo.Todo.MVP;
 
 public interface TodoPresenterContract {
     void onAddTodoClicked();
+    void loadTasks();
 }

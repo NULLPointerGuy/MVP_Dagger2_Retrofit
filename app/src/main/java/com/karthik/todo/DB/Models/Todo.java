@@ -12,6 +12,7 @@ public class Todo extends RealmObject {
     private long id;
     private String todoTitle;
     private String todoDesc;
+    private boolean isDone;
 
     public void setId(long id) {
         this.id = id;
@@ -30,5 +31,11 @@ public class Todo extends RealmObject {
     }
     public String getTodoDesc() {
         return todoDesc;
+    }
+    public boolean isDone() {
+        return isDone;
+    }
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }

@@ -27,8 +27,12 @@ public class Dbhander {
        realmdb.commitTransaction();
     }
 
+    public boolean isDbEmpty(){
+        return realmdb.isEmpty();
+    }
+
     public RealmResults<Todo> getAllTodo(){
-       return realmdb.where(Todo.class).findAllAsync();
+       return realmdb.where(Todo.class).findAll();
     }
 
     public void closeDb(){

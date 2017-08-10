@@ -8,28 +8,46 @@
         tools:context="com.karthik.todo.Todo.TodoActivity"
         >
 
-    <android.support.design.widget.AppBarLayout
-            android:layout_height="wrap_content"
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            >
+            android:layout_height="match_parent"
+            android:background="@color/grey">
+        <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbarLayout"
+                android:layout_height="@dimen/dash_tool_height"
+                android:layout_width="match_parent">
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/colorPrimary"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:contentInsetStart="0dp">
+                <ImageView
+                        android:id="@+id/dashbackgroundImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:src="@drawable/ic_launcher_background"
+                        android:scaleType="centerCrop"
+                        android:tint="#88000000"/>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
+        <TextView
+                android:id="@+id/empty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/press_plus"
+                android:layout_centerInParent="true"
                 />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/press_plus"
-            android:layout_gravity="center"
-            />
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/taskList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/appbarLayout"
+                android:visibility="gone"
+                android:layout_margin="@dimen/fab_margin"/>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

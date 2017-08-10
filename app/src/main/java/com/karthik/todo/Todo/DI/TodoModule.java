@@ -1,11 +1,13 @@
 package com.karthik.todo.Todo.DI;
 
+import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.Todo.MVP.TodoPresenter;
 import com.karthik.todo.Todo.MVP.TodoPresenterContract;
 import com.karthik.todo.Todo.MVP.TodoViewContract;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
 
 /**
  * Created by karthikr on 8/8/17.
@@ -26,5 +28,10 @@ public class TodoModule {
     @Provides
     TodoPresenterContract providesPresenter(TodoViewContract viewContract){
         return new TodoPresenter(viewContract);
+    }
+
+    @Provides
+    Dbhander providesDbHandler(Realm realm){
+      return new Dbhander(realm);
     }
 }
