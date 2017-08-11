@@ -1,16 +1,15 @@
-package com.karthik.todo.AddTodo;
+package com.karthik.todo.Screens.AddTodo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.karthik.todo.AddTodo.DI.AddTodoComponent;
-import com.karthik.todo.AddTodo.DI.AddTodoModule;
-import com.karthik.todo.AddTodo.MVP.AddTodoPresenterContract;
-import com.karthik.todo.AddTodo.MVP.AddTodoViewContract;
+import com.karthik.todo.Screens.AddTodo.DI.AddTodoComponent;
+import com.karthik.todo.Screens.AddTodo.DI.AddTodoModule;
+import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenterContract;
+import com.karthik.todo.Screens.AddTodo.MVP.AddTodoViewContract;
 import com.karthik.todo.R;
 import com.karthik.todo.TodoApp;
 
@@ -19,7 +18,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 /**
  * Created by karthikr on 8/8/17.

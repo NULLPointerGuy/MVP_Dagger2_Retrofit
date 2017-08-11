@@ -1,8 +1,8 @@
-package com.karthik.todo.AddTodo.DI;
+package com.karthik.todo.Screens.AddTodo.DI;
 
-import com.karthik.todo.AddTodo.MVP.AddTodoPresenter;
-import com.karthik.todo.AddTodo.MVP.AddTodoPresenterContract;
-import com.karthik.todo.AddTodo.MVP.AddTodoViewContract;
+import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenter;
+import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenterContract;
+import com.karthik.todo.Screens.AddTodo.MVP.AddTodoViewContract;
 import com.karthik.todo.DB.Dbhander;
 
 import dagger.Module;

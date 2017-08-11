@@ -1,7 +1,7 @@
-package com.karthik.todo.Todo.DI;
+package com.karthik.todo.Screens.Todo.DI;
 
-import com.karthik.todo.Todo.MVP.TodoPresenter;
-import com.karthik.todo.Todo.TodoActivity;
+import com.karthik.todo.Screens.Todo.MVP.TodoPresenter;
+import com.karthik.todo.Screens.Todo.TodoActivity;
 
 import dagger.Subcomponent;
 

@@ -14,7 +14,7 @@
             android:theme="@style/AppTheme"
             android:name=".TodoApp">
         <activity
-                android:name=".Todo.TodoActivity"
+                android:name=".Screens.Todo.TodoActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar"
                 >
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".AddTodo.AddTodoActivity"
+                android:name=".Screens.AddTodo.AddTodoActivity"
                 android:label="@string/add_todo"/>
     </application>
 

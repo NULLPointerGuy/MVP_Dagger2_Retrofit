@@ -1,10 +1,11 @@
-package com.karthik.todo.Todo;
+package com.karthik.todo.Screens.Todo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,23 +16,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.karthik.todo.AddTodo.AddTodoActivity;
+import com.karthik.todo.Screens.AddTodo.AddTodoActivity;
 import com.karthik.todo.DB.Models.Todo;
 import com.karthik.todo.R;
-import com.karthik.todo.Todo.DI.TodoDashComponent;
-import com.karthik.todo.Todo.DI.TodoModule;
-import com.karthik.todo.Todo.MVP.TodoPresenterContract;
-import com.karthik.todo.Todo.MVP.TodoViewContract;
+import com.karthik.todo.Screens.Todo.DI.TodoDashComponent;
+import com.karthik.todo.Screens.Todo.DI.TodoModule;
+import com.karthik.todo.Screens.Todo.MVP.TodoPresenterContract;
+import com.karthik.todo.Screens.Todo.MVP.TodoViewContract;
 import com.karthik.todo.TodoApp;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class TodoActivity extends AppCompatActivity implements TodoViewContract{
@@ -50,9 +50,11 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     RecyclerView taskList;
 
     @Inject
-    Context context;
-    @Inject
     TodoPresenterContract presenter;
+    @Inject
+    SharedPreferences prefs;
+    @Inject
+    Picasso picasso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     protected void onResume() {
         super.onResume();
         presenter.loadTasks();
-        presenter.getUnsplashImages();
+        presenter.getUnsplashImages("thunder");
     }
 
     private void intialize() {
@@ -73,20 +75,6 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
        dashComponent.inject(this);
        ButterKnife.bind(this);
        setSupportActionBar(toolbar);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_todo, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -122,6 +110,27 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
         taskList.setLayoutManager(new LinearLayoutManager(this));
         taskList.setItemAnimator(new DefaultItemAnimator());
         taskList.setAdapter(new TaskAdapter(todos));
+    }
+
+    @Override
+    public void saveInCache(String date,String json) {
+        prefs.edit().putString(date,json).commit();
+    }
+
+    @Override
+    public void loadImage(String url) {
+        picasso.load(url).into(dashBackgroundImage);
+    }
+
+    @Override
+    public boolean isCachePresent(String date) {
+        return prefs.contains(date);
+    }
+
+    @Override
+    @Nullable
+    public String getFromCache(String date) {
+        return prefs.getString(date,null);
     }
 
     @Override

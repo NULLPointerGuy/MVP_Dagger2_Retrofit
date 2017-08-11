@@ -1,4 +1,4 @@
-package com.karthik.todo.AddTodo.DI;
+package com.karthik.todo.Screens.Todo.DI;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -10,5 +10,5 @@ import javax.inject.Scope;
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AddTodo {
+public @interface TodoScope {
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.squareup.picasso.Picasso;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -36,5 +38,10 @@ public class TodoAppModule {
     @Provides @Singleton
     public Realm providesRealmDb(){
         return Realm.getDefaultInstance();
+    }
+
+    @Provides
+    public Picasso providesPicasso(Context context){
+        return Picasso.with(context);
     }
 }

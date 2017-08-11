@@ -1,9 +1,9 @@
 package com.karthik.todo;
 
-import com.karthik.todo.AddTodo.DI.AddTodoComponent;
-import com.karthik.todo.AddTodo.DI.AddTodoModule;
-import com.karthik.todo.Todo.DI.TodoDashComponent;
-import com.karthik.todo.Todo.DI.TodoModule;
+import com.karthik.todo.Screens.AddTodo.DI.AddTodoComponent;
+import com.karthik.todo.Screens.AddTodo.DI.AddTodoModule;
+import com.karthik.todo.Screens.Todo.DI.TodoDashComponent;
+import com.karthik.todo.Screens.Todo.DI.TodoModule;
 
 import javax.inject.Singleton;
 

@@ -1,6 +1,6 @@
-package com.karthik.todo.AddTodo.MVP;
+package com.karthik.todo.Screens.AddTodo.MVP;
 
-import com.karthik.todo.AddTodo.DI.AddTodoComponent;
+import com.karthik.todo.Screens.AddTodo.DI.AddTodoComponent;
 
 /**
  * Created by karthikr on 8/8/17.

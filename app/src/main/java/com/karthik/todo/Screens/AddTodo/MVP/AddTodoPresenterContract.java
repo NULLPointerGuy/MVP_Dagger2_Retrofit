@@ -1,4 +1,4 @@
-package com.karthik.todo.AddTodo.MVP;
+package com.karthik.todo.Screens.AddTodo.MVP;
 
 /**
  * Created by karthikr on 8/8/17.

@@ -1,4 +1,4 @@
-package com.karthik.todo.AddTodo.MVP;
+package com.karthik.todo.Screens.AddTodo.MVP;
 
 import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.DB.Models.Todo;

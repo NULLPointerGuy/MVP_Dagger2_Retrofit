@@ -1,4 +1,4 @@
-package com.karthik.todo.Todo;
+package com.karthik.todo.Screens.Todo;
 
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;

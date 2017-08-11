@@ -1,4 +1,4 @@
-package com.karthik.todo.Todo.MVP;
+package com.karthik.todo.Screens.Todo.MVP;
 
 /**
  * Created by karthikrk on 08/08/17.
@@ -7,5 +7,5 @@ package com.karthik.todo.Todo.MVP;
 public interface TodoPresenterContract {
     void onAddTodoClicked();
     void loadTasks();
-    void getUnsplashImages();
+    void getUnsplashImages(String genre);
 }
