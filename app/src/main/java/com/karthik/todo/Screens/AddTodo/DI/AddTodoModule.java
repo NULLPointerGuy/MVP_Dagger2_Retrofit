@@ -5,6 +5,8 @@ import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenterContract;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoViewContract;
 import com.karthik.todo.DB.Dbhander;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
@@ -28,6 +30,11 @@ public class AddTodoModule {
     @Provides
     AddTodoPresenterContract providesPresenter(AddTodoViewContract viewContract){
         return new AddTodoPresenter(viewContract);
+    }
+
+    @Provides
+    public Realm providesRealmDb(){
+        return Realm.getDefaultInstance();
     }
 
     @Provides

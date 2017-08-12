@@ -21,4 +21,5 @@ public interface TodoViewContract {
     boolean isCachePresent(String date);
     String getFromCache(String date);
     void setDashBoardTitle(String date);
+    void setForeCastInfo(String foreCastInfo);
 }

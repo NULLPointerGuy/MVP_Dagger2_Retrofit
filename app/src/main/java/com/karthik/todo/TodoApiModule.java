@@ -1,5 +1,7 @@
 package com.karthik.todo;
 
+import com.karthik.todo.APIService.ForecastAPIManager;
+import com.karthik.todo.APIService.ForecastService;
 import com.karthik.todo.APIService.UnsplashAPIManager;
 import com.karthik.todo.APIService.UnsplashService;
 
@@ -29,6 +31,14 @@ public class TodoApiModule {
 
     @Singleton
     @Provides
+    @Named("FORECASTBASEURL")
+    String providesForecastBaseUrl(){
+        return BuildConfig.FORECAST_URL;
+    }
+
+
+    @Singleton
+    @Provides
     OkHttpClient providesOkhttp(){
         //Todo:provide connection read write timeouts!!
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -46,13 +56,25 @@ public class TodoApiModule {
     @Singleton
     @Provides
     @Named("UNSPLASHRETROFIT")
-    Retrofit providesRetrofit(OkHttpClient okHttpClient,@Named("UNSPLASHBASEURL") String unsplashbaseurl){
+    Retrofit providesUnsplashRetrofit(OkHttpClient okHttpClient, @Named("UNSPLASHBASEURL") String unsplashbaseurl){
         return new Retrofit.Builder()
                 .baseUrl(unsplashbaseurl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
     }
+
+    @Singleton
+    @Provides
+    @Named("FORECASTRETROFIT")
+    Retrofit providesForecastRetrofit(OkHttpClient okHttpClient, @Named("FORECASTBASEURL") String forecastbaseurl){
+        return new Retrofit.Builder()
+                .baseUrl(forecastbaseurl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+    }
+
 
     @Singleton
     @Provides
@@ -63,5 +85,16 @@ public class TodoApiModule {
     @Provides
     UnsplashAPIManager providesUnsplashAPIManager(UnsplashService unsplashService){
         return new UnsplashAPIManager(unsplashService);
+    }
+
+    @Singleton
+    @Provides
+    ForecastService providesForecastService(@Named("FORECASTRETROFIT") Retrofit retrofit){
+        return retrofit.create(ForecastService.class);
+    }
+
+    @Provides
+    ForecastAPIManager providesForecastAPIManger(ForecastService forecastService){
+        return new ForecastAPIManager(forecastService);
     }
 }

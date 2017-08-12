@@ -95,6 +95,7 @@ public class AddTodoActivity extends AppCompatActivity
     public void showSaveSuccessMessage() {
         Toast.makeText(this,getString(R.string.save_success),
                 Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

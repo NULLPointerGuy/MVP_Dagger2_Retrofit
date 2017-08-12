@@ -1,11 +1,16 @@
 package com.karthik.todo.Screens.Todo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +30,7 @@ import com.karthik.todo.Screens.Todo.DI.TodoModule;
 import com.karthik.todo.Screens.Todo.MVP.TodoPresenterContract;
 import com.karthik.todo.Screens.Todo.MVP.TodoViewContract;
 import com.karthik.todo.TodoApp;
+import com.karthik.todo.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -39,6 +45,7 @@ import io.realm.RealmResults;
 public class TodoActivity extends AppCompatActivity implements TodoViewContract{
 
     private TodoDashComponent dashComponent;
+    private final int REQUEST_LOCATION_CAPTURE = 1;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -76,12 +83,22 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     }
 
     private void intialize() {
-       dashComponent =  ((TodoApp)getApplication()).getComponent().plus(new TodoModule(this));
+       dashComponent =  ((TodoApp)getApplication()).getComponent().plus(new TodoModule(this,this));
        dashComponent.inject(this);
        ButterKnife.bind(this);
        setSupportActionBar(toolbar);
-       presenter.setDashTitle();
-       presenter.getUnsplashImages("thunder");
+       presenterIntialize();
+    }
+
+    private void presenterIntialize() {
+        presenter.setDashTitle();
+        if(Utils.isLocationPermissionGranted(this)){
+            presenter.getLocation();
+            return;
+        }
+        ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_LOCATION_CAPTURE);
     }
 
     @Override
@@ -146,8 +163,29 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     }
 
     @Override
+    public void setForeCastInfo(String foreCastInfo) {
+        dashWeather.setVisibility(View.VISIBLE);
+        dashWeather.setText(foreCastInfo);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         dashComponent = null;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case REQUEST_LOCATION_CAPTURE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    presenter.getLocation();
+                    return;
+                }
+                presenter.getUnsplashImages("Nature");
+                break;
+        }
     }
 }

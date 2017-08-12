@@ -1,36 +1,56 @@
 package com.karthik.todo.Screens.Todo.MVP;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
+import android.annotation.SuppressLint;
+import android.location.Location;
 import android.util.Log;
 
+import com.karthik.todo.APIService.ForecastAPIManager;
 import com.karthik.todo.APIService.UnsplashAPIManager;
 import com.karthik.todo.DB.Dbhander;
+import com.karthik.todo.Pojo.Forecast;
 import com.karthik.todo.Pojo.Unsplash;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Random;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by karthikrk on 08/08/17.
  */
 
-public class TodoPresenter implements TodoPresenterContract,UnsplashAPIManager.UnsplashAPICallback{
+public class TodoPresenter implements TodoPresenterContract,
+        UnsplashAPIManager.UnsplashAPICallback,
+        ForecastAPIManager.ForecastCallback{
     private TodoViewContract view;
 
     @Inject
     Dbhander dbhander;
     @Inject
     UnsplashAPIManager unsplashAPIManager;
+    @Inject
+    ForecastAPIManager forecastAPIManager;
+    @Inject
+    FusedLocationProviderClient locationClient;
+    @Inject
+    @Named("WEATHERSTRING")
+    String weatherString;
 
-    public TodoPresenter(TodoViewContract view){
+    public TodoPresenter(TodoViewContract view) {
         this.view = view;
         this.view.getTodoDashComponent().inject(this);
+        intializeAPICallbacks();
+    }
+
+    private void intializeAPICallbacks() {
         unsplashAPIManager.setUnsplashAPICallbacks(this);
+        forecastAPIManager.setForecastAPICallbacks(this);
     }
 
     @Override
@@ -42,14 +62,14 @@ public class TodoPresenter implements TodoPresenterContract,UnsplashAPIManager.U
     public void setDashTitle() {
         Calendar cal = Calendar.getInstance();
         String formatedDateString = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
-                +", "+cal.get(Calendar.DAY_OF_MONTH)
-                +" "+cal.getDisplayName(Calendar.MONTH,Calendar.LONG,Locale.getDefault())+" ";
+                + ", " + cal.get(Calendar.DAY_OF_MONTH)
+                + " " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " ";
         view.setDashBoardTitle(formatedDateString);
     }
 
     @Override
     public void loadTasks() {
-        if(dbhander.isDbEmpty()){
+        if (dbhander.isDbEmpty()) {
             view.showEmptyTextAndHideTask();
             return;
         }
@@ -59,13 +79,24 @@ public class TodoPresenter implements TodoPresenterContract,UnsplashAPIManager.U
 
     @Override
     public void getUnsplashImages(String genre) {
-        if(view.isCachePresent(getStringValueOfToday())){
+        if (view.isCachePresent(getStringValueOfToday())) {
             Unsplash unsplash = new Gson()
-                    .fromJson(view.getFromCache(getStringValueOfToday()),Unsplash.class);
+                    .fromJson(view.getFromCache(getStringValueOfToday()), Unsplash.class);
             loadRandomImage(unsplash);
-        }else{
+        } else {
             unsplashAPIManager.getPhotosList(genre);
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void getLocation() {
+        locationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                getForecastInfo(location);
+            }
+        });
     }
 
     @Override
@@ -76,7 +107,28 @@ public class TodoPresenter implements TodoPresenterContract,UnsplashAPIManager.U
 
     @Override
     public void onFailure(String message) {
-        Log.e("FAILED",message);
+        Log.e("FAILED","UNSPLASH API FAILED");
+    }
+
+    @Override
+    public void success(Forecast forecast) {
+        getUnsplashImages(forecast.getCurrently().getIcon());
+        view.setForeCastInfo(String.format(weatherString,
+                forecast.getCurrently().getSummary()));
+    }
+
+    @Override
+    public void failure(String message) {
+        Log.e("FAILED","FORECAST API FAILED");
+    }
+
+    private void getForecastInfo(Location location){
+        if(location==null) {
+            getUnsplashImages("Nature");
+            return;
+        }
+        forecastAPIManager.getForecast(location.getLatitude(),
+                location.getLongitude());
     }
 
     private String getStringValueOfToday(){

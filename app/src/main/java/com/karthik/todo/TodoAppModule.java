@@ -35,11 +35,6 @@ public class TodoAppModule {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    @Provides @Singleton
-    public Realm providesRealmDb(){
-        return Realm.getDefaultInstance();
-    }
-
     @Provides
     public Picasso providesPicasso(Context context){
         return Picasso.with(context);

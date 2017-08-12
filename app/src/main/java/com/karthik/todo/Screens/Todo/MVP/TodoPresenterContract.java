@@ -9,4 +9,5 @@ public interface TodoPresenterContract {
     void setDashTitle();
     void loadTasks();
     void getUnsplashImages(String genre);
+    void getLocation();
 }
