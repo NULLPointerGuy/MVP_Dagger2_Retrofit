@@ -6,6 +6,7 @@ package com.karthik.todo.Screens.Todo.MVP;
 
 public interface TodoPresenterContract {
     void onAddTodoClicked();
+    void setDashTitle();
     void loadTasks();
     void getUnsplashImages(String genre);
 }

@@ -20,4 +20,5 @@ public interface TodoViewContract {
     void loadImage(String url);
     boolean isCachePresent(String date);
     String getFromCache(String date);
+    void setDashBoardTitle(String date);
 }

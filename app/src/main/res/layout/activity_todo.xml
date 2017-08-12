@@ -23,13 +23,43 @@
                     android:background="?attr/colorPrimary"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:contentInsetStart="0dp">
-                <ImageView
-                        android:id="@+id/dashbackgroundImage"
+                <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:src="@drawable/ic_launcher_background"
-                        android:scaleType="centerCrop"
-                        android:tint="#88303F9F"/>
+                        android:layout_height="match_parent">
+                    <ImageView
+                            android:id="@+id/dashbackgroundImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:src="@drawable/ic_launcher_background"
+                            android:scaleType="centerCrop"
+                            android:tint="#88303F9F"/>
+                    <LinearLayout
+                            android:id="@+id/dashTextWrapper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="bottom"
+                            android:padding="@dimen/fab_margin"
+                            android:layout_marginBottom="@dimen/fab_margin">
+                        <TextView
+                                android:id="@+id/dashTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                tools:text="Wednesday, March 29"
+                                android:textColor="@android:color/white"
+                                style="?android:textAppearanceLarge"/>
+                        <TextView
+                                android:id="@+id/dashWeather"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:visibility="invisible"
+                                tools:visibility="visible"
+                                tools:text="It's gonna be a cloudy day"
+                                android:textColor="@android:color/white"/>
+                    </LinearLayout>
+                </FrameLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
@@ -38,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/press_plus"
+                style="?android:textAppearanceMedium"
                 android:layout_centerInParent="true"
                 />
         <android.support.v7.widget.RecyclerView

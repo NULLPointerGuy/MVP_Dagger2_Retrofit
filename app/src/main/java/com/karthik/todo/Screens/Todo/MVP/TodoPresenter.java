@@ -8,7 +8,9 @@ import com.karthik.todo.APIService.UnsplashAPIManager;
 import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.Pojo.Unsplash;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -34,6 +36,15 @@ public class TodoPresenter implements TodoPresenterContract,UnsplashAPIManager.U
     @Override
     public void onAddTodoClicked() {
         view.openAddTodoScreen();
+    }
+
+    @Override
+    public void setDashTitle() {
+        Calendar cal = Calendar.getInstance();
+        String formatedDateString = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+                +", "+cal.get(Calendar.DAY_OF_MONTH)
+                +" "+cal.getDisplayName(Calendar.MONTH,Calendar.LONG,Locale.getDefault())+" ";
+        view.setDashBoardTitle(formatedDateString);
     }
 
     @Override

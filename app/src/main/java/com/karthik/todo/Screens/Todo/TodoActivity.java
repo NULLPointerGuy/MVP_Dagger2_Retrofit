@@ -27,6 +27,8 @@ import com.karthik.todo.Screens.Todo.MVP.TodoViewContract;
 import com.karthik.todo.TodoApp;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -48,6 +50,10 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     TextView emptyText;
     @BindView(R.id.taskList)
     RecyclerView taskList;
+    @BindView(R.id.dashTitle)
+    TextView dashTitle;
+    @BindView(R.id.dashWeather)
+    TextView dashWeather;
 
     @Inject
     TodoPresenterContract presenter;
@@ -67,7 +73,6 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     protected void onResume() {
         super.onResume();
         presenter.loadTasks();
-        presenter.getUnsplashImages("thunder");
     }
 
     private void intialize() {
@@ -75,6 +80,8 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
        dashComponent.inject(this);
        ButterKnife.bind(this);
        setSupportActionBar(toolbar);
+       presenter.setDashTitle();
+       presenter.getUnsplashImages("thunder");
     }
 
     @Override
@@ -131,6 +138,11 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     @Nullable
     public String getFromCache(String date) {
         return prefs.getString(date,null);
+    }
+
+    @Override
+    public void setDashBoardTitle(String date) {
+        dashTitle.setText(date);
     }
 
     @Override
