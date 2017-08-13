@@ -83,28 +83,18 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     }
 
     private void intialize() {
-       dashComponent =  ((TodoApp)getApplication()).getComponent().plus(new TodoModule(this,this));
-       dashComponent.inject(this);
-       ButterKnife.bind(this);
-       setSupportActionBar(toolbar);
-       presenterIntialize();
-    }
-
-    private void presenterIntialize() {
+        dashComponent =  ((TodoApp)getApplication()).getComponent().plus(new TodoModule(this,this));
+        dashComponent.inject(this);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         presenter.setDashTitle();
-        if(Utils.isLocationPermissionGranted(this)){
-            presenter.getLocation();
-            return;
-        }
-        ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    REQUEST_LOCATION_CAPTURE);
+        presenter.getLocation();
     }
 
     @Override
     @OnClick(R.id.fab)
     public void onAddTodoClicked() {
-       presenter.onAddTodoClicked();
+        presenter.onAddTodoClicked();
     }
 
     @Override
@@ -166,6 +156,18 @@ public class TodoActivity extends AppCompatActivity implements TodoViewContract{
     public void setForeCastInfo(String foreCastInfo) {
         dashWeather.setVisibility(View.VISIBLE);
         dashWeather.setText(foreCastInfo);
+    }
+
+    @Override
+    public boolean isLocationPermGranted() {
+        return Utils.isLocationPermissionGranted(this);
+    }
+
+    @Override
+    public void askLocationPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                REQUEST_LOCATION_CAPTURE);
     }
 
     @Override

@@ -91,12 +91,16 @@ public class TodoPresenter implements TodoPresenterContract,
     @SuppressLint("MissingPermission")
     @Override
     public void getLocation() {
-        locationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                getForecastInfo(location);
-            }
-        });
+        if(view.isLocationPermGranted()){
+            locationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    getForecastInfo(location);
+                }
+            });
+        }else{
+            view.askLocationPermission();
+        }
     }
 
     @Override
@@ -132,7 +136,7 @@ public class TodoPresenter implements TodoPresenterContract,
     }
 
     private String getStringValueOfToday(){
-       return String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        return String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
     }
 
     private void loadRandomImage(Unsplash unsplash) {

@@ -22,4 +22,6 @@ public interface TodoViewContract {
     String getFromCache(String date);
     void setDashBoardTitle(String date);
     void setForeCastInfo(String foreCastInfo);
+    boolean isLocationPermGranted();
+    void askLocationPermission();
 }
