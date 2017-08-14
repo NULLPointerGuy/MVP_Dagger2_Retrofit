@@ -28,23 +28,27 @@ import javax.inject.Named;
 public class TodoPresenter implements TodoPresenterContract,
         UnsplashAPIManager.UnsplashAPICallback,
         ForecastAPIManager.ForecastCallback{
+
     private TodoViewContract view;
+    private Dbhander dbhander;
+    private UnsplashAPIManager unsplashAPIManager;
+    private ForecastAPIManager forecastAPIManager;
+    private FusedLocationProviderClient locationClient;
+    private String weatherString;
 
     @Inject
-    Dbhander dbhander;
-    @Inject
-    UnsplashAPIManager unsplashAPIManager;
-    @Inject
-    ForecastAPIManager forecastAPIManager;
-    @Inject
-    FusedLocationProviderClient locationClient;
-    @Inject
-    @Named("WEATHERSTRING")
-    String weatherString;
-
-    public TodoPresenter(TodoViewContract view) {
+    public TodoPresenter(TodoViewContract view,
+                         Dbhander dbhander,
+                         UnsplashAPIManager unsplashAPIManager,
+                         ForecastAPIManager forecastAPIManager,
+                         FusedLocationProviderClient providerClient,
+                         @Named("WEATHERSTRING") String weatherString) {
         this.view = view;
-        this.view.getTodoDashComponent().inject(this);
+        this.dbhander = dbhander;
+        this.unsplashAPIManager = unsplashAPIManager;
+        this.forecastAPIManager = forecastAPIManager;
+        this.locationClient = providerClient;
+        this.weatherString =  weatherString;
         intializeAPICallbacks();
     }
 

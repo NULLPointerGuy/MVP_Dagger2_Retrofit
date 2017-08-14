@@ -6,6 +6,8 @@ import com.google.android.gms.location.LocationServices;
 
 import android.content.Context;
 
+import com.karthik.todo.APIService.ForecastAPIManager;
+import com.karthik.todo.APIService.UnsplashAPIManager;
 import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.R;
 import com.karthik.todo.Screens.Todo.MVP.TodoPresenter;
@@ -38,11 +40,6 @@ public class TodoModule {
     }
 
     @Provides
-    TodoPresenterContract providesPresenter(TodoViewContract viewContract){
-        return new TodoPresenter(viewContract);
-    }
-
-    @Provides
     public Realm providesRealmDb(){
         return Realm.getDefaultInstance();
     }
@@ -55,6 +52,17 @@ public class TodoModule {
     @Provides
     FusedLocationProviderClient providesLocationClient(){
         return LocationServices.getFusedLocationProviderClient(activityContext);
+    }
+
+    @Provides
+    TodoPresenterContract providesPresenter(TodoViewContract viewContract,
+                                            Dbhander dbhander,
+                                            UnsplashAPIManager unsplashAPIManager,
+                                            ForecastAPIManager forecastAPIManager,
+                                            FusedLocationProviderClient locationProviderClient,
+                                            @Named("WEATHERSTRING") String weatherString){
+        return new TodoPresenter(viewContract,dbhander,unsplashAPIManager,
+                forecastAPIManager,locationProviderClient,weatherString);
     }
 
     @Provides
