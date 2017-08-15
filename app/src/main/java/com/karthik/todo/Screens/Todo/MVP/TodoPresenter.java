@@ -109,6 +109,8 @@ public class TodoPresenter implements TodoPresenterContract,
 
     @Override
     public void onSuccess(Unsplash unsplash) {
+        if(unsplash==null)
+            return;
         view.saveInCache(getStringValueOfToday(),new Gson().toJson(unsplash));
         loadRandomImage(unsplash);
     }
@@ -120,6 +122,10 @@ public class TodoPresenter implements TodoPresenterContract,
 
     @Override
     public void success(Forecast forecast) {
+        if(forecast==null || forecast.getCurrently()==null||forecast.getCurrently().getIcon()==null){
+            getUnsplashImages("nature");
+            return;
+        }
         getUnsplashImages(forecast.getCurrently().getIcon());
         view.setForeCastInfo(String.format(weatherString,
                 forecast.getCurrently().getSummary()));
@@ -144,6 +150,8 @@ public class TodoPresenter implements TodoPresenterContract,
     }
 
     private void loadRandomImage(Unsplash unsplash) {
+        if(unsplash.getResults().size()==0)
+            return;
         int random = new Random().nextInt(unsplash.getResults().size());
         view.loadImage(unsplash.getResults().get(random).getUrls().getSmall());
     }

@@ -1,12 +1,21 @@
 package com.karthik.todo;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+
+import android.annotation.SuppressLint;
+import android.location.Location;
 
 import com.karthik.todo.APIService.ForecastAPIManager;
 import com.karthik.todo.APIService.UnsplashAPIManager;
 import com.karthik.todo.DB.Dbhander;
+import com.karthik.todo.Pojo.Currently;
+import com.karthik.todo.Pojo.Forecast;
 import com.karthik.todo.Pojo.Result;
 import com.karthik.todo.Pojo.Unsplash;
+import com.karthik.todo.Pojo.Urls;
 import com.karthik.todo.Screens.Todo.MVP.TodoPresenter;
 import com.karthik.todo.Screens.Todo.MVP.TodoPresenterContract;
 import com.karthik.todo.Screens.Todo.MVP.TodoViewContract;
@@ -14,9 +23,12 @@ import com.karthik.todo.Screens.Todo.MVP.TodoViewContract;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Captor;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -25,8 +37,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,7 +60,9 @@ public class TodoTestPresenter {
     FusedLocationProviderClient locationClient;
     @Mock
     TodoViewContract mockView;
-    private TodoPresenterContract mockPresenter;
+    private TodoPresenter mockPresenter;
+    @Captor
+    ArgumentCaptor<OnSuccessListener<Location>> argumentCaptor = ArgumentCaptor.forClass(OnSuccessListener.class);
 
     @Before
     public void setup(){
@@ -102,4 +118,85 @@ public class TodoTestPresenter {
         mockPresenter.getUnsplashImages("random");
         verify(unsplashAPIManager,times(1)).getPhotosList("random");
     }
+
+    @Test
+    public void askLocationPermissionIfNotGranted(){
+        when(mockView.isLocationPermGranted()).thenReturn(false);
+        mockPresenter.getLocation();
+        verify(mockView,times(1)).askLocationPermission();
+    }
+
+
+    @SuppressLint("MissingPermission")
+    @Test
+    public void getLocationDetailsIfPermissionGranted(){
+        when(mockView.isLocationPermGranted()).thenReturn(true);
+        Task<Location> task = mock(Task.class);
+        when(locationClient.getLastLocation()).thenReturn(task);
+        mockPresenter.getLocation();
+        verify(locationClient,times(1)).getLastLocation();
+    }
+
+    @Test
+    public void onNullResponseOfUnsplash(){
+        Unsplash nullUnsplash = null;
+        mockPresenter.onSuccess(nullUnsplash);
+        verify(mockView,never()).saveInCache("dummy","dummy");
+    }
+
+    @Test
+    public void onEmptyResponseOfUnsplash(){
+        Unsplash unsplash = new Unsplash();
+        unsplash.setResults(Collections.<Result>emptyList());
+        mockPresenter.onSuccess(unsplash);
+        verify(mockView,never()).saveInCache("dummy",new Gson().toJson(unsplash));
+    }
+
+    @Test
+    public void onActualResponseOfUnsplash(){
+        Unsplash unsplash = new Unsplash();
+        Result results = new Result();
+        Urls urls = new Urls();
+        urls.setSmall("https://dummyurl.api.com");
+        results.setUrls(urls);
+        List<Result> resultList = new ArrayList<>();
+        resultList.add(results);
+        unsplash.setResults(resultList);
+        mockPresenter.onSuccess(unsplash);
+        verify(mockView,times(1))
+                .saveInCache("15","{\"results\":[{\"urls\":{\"small\":\"https://dummyurl.api.com\"}}]}");
+    }
+
+    @Test
+    public void onNullResponseofForecast(){
+        Forecast forecast = null;
+        TodoPresenter spyPresenter = Mockito.spy(mockPresenter);
+        spyPresenter.success(forecast);
+        verify(mockView,never()).setForeCastInfo(null);
+        verify(spyPresenter,times(1)).getUnsplashImages("nature");
+    }
+
+    @Test
+    public void onEmptyResponseOfForecast(){
+        Forecast forecast = mock(Forecast.class);
+        TodoPresenter spyPresenter = Mockito.spy(mockPresenter);
+        spyPresenter.success(forecast);
+        verify(mockView,never()).setForeCastInfo(null);
+        verify(spyPresenter,times(1)).getUnsplashImages("nature");
+    }
+
+    @Test
+    public void onActualResponseOfForecast(){
+        Forecast forecast = mock(Forecast.class);
+        Currently currently = mock(Currently.class);
+        when(currently.getIcon()).thenReturn("cloudy");
+        when(forecast.getCurrently()).thenReturn(currently);
+
+        TodoPresenter spyPresenter = Mockito.spy(mockPresenter);
+        spyPresenter.success(forecast);
+
+        verify(spyPresenter,times(1)).getUnsplashImages("cloudy");
+        verify(mockView,times(1)).setForeCastInfo("its gonna be");
+    }
+
 }
