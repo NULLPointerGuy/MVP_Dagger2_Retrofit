@@ -11,13 +11,12 @@ import javax.inject.Inject;
 
 public class AddTodoPresenter implements AddTodoPresenterContract {
     private AddTodoViewContract view;
+    private Dbhander dbhander;
 
     @Inject
-    Dbhander dbhander;
-
-    public AddTodoPresenter(AddTodoViewContract viewContract){
+    public AddTodoPresenter(AddTodoViewContract viewContract,Dbhander dbhander){
         this.view = viewContract;
-        this.view.getAddTodoComponent().inject(this);
+        this.dbhander = dbhander;
     }
 
     @Override

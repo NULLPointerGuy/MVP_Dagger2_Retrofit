@@ -164,7 +164,8 @@ public class TodoTestPresenter {
         unsplash.setResults(resultList);
         mockPresenter.onSuccess(unsplash);
         verify(mockView,times(1))
-                .saveInCache("15","{\"results\":[{\"urls\":{\"small\":\"https://dummyurl.api.com\"}}]}");
+                .saveInCache(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+                        "{\"results\":[{\"urls\":{\"small\":\"https://dummyurl.api.com\"}}]}");
     }
 
     @Test

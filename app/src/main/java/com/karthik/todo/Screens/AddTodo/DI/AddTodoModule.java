@@ -28,11 +28,6 @@ public class AddTodoModule {
     }
 
     @Provides
-    AddTodoPresenterContract providesPresenter(AddTodoViewContract viewContract){
-        return new AddTodoPresenter(viewContract);
-    }
-
-    @Provides
     public Realm providesRealmDb(){
         return Realm.getDefaultInstance();
     }
@@ -40,5 +35,10 @@ public class AddTodoModule {
     @Provides
     Dbhander providesDbHandler(Realm realmdb){
         return new Dbhander(realmdb);
+    }
+
+    @Provides
+    AddTodoPresenterContract providesPresenter(AddTodoViewContract viewContract,Dbhander dbhander){
+        return new AddTodoPresenter(viewContract,dbhander);
     }
 }
