@@ -61,8 +61,6 @@ public class TodoTestPresenter {
     @Mock
     TodoViewContract mockView;
     private TodoPresenter mockPresenter;
-    @Captor
-    ArgumentCaptor<OnSuccessListener<Location>> argumentCaptor = ArgumentCaptor.forClass(OnSuccessListener.class);
 
     @Before
     public void setup(){

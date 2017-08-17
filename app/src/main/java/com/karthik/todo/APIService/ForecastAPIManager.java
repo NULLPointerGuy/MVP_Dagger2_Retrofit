@@ -21,7 +21,13 @@ public class ForecastAPIManager {
     }
 
     public void setForecastAPICallbacks(ForecastCallback callBack) {
+        if(callBack==null)
+            throw new IllegalStateException("Callback cannot be null");
         this.callBack = callBack;
+    }
+
+    public ForecastCallback getCallBack() {
+        return callBack;
     }
 
 
