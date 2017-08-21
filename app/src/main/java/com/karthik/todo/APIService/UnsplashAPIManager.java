@@ -32,6 +32,8 @@ public class UnsplashAPIManager {
     }
 
     public void setUnsplashAPICallbacks(UnsplashAPICallback unsplashAPICallback){
+        if (unsplashAPICallback==null)
+            throw new IllegalArgumentException("callback cannot be null");
         this.callback = unsplashAPICallback;
     }
 
