@@ -30,7 +30,6 @@
                             android:id="@+id/dashbackgroundImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:src="@drawable/ic_launcher_background"
                             android:scaleType="centerCrop"
                             android:tint="#88303F9F"/>
                     <LinearLayout
