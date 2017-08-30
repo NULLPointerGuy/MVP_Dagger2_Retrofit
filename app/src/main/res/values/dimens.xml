@@ -3,4 +3,5 @@
     <dimen name="dash_tool_height">200dp</dimen>
     <dimen name="task_row">100dp</dimen>
     <dimen name="task_detail_margin">2dp</dimen>
+    <dimen name="add_todo_cross">8dp</dimen>
 </resources>

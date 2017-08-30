@@ -21,10 +21,9 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
 
     @Override
     public void saveTodo() {
-        if(view.isTodoValidTitle() && view.isTodoValidDetail()){
+        if(view.isTodoValidTitle()){
             Todo todo = new Todo();
             todo.setTodoTitle(view.getTodoTitle());
-            todo.setTodoDesc(view.getTodoDesc());
             dbhander.saveTodo(todo);
             view.showSaveSuccessMessage();
             return;

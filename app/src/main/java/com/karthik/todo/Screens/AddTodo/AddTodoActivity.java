@@ -2,6 +2,7 @@ package com.karthik.todo.Screens.AddTodo;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -28,8 +29,7 @@ public class AddTodoActivity extends AppCompatActivity
 
     @BindView(R.id.todotitle)
     TextInputEditText todoTitle;
-    @BindView(R.id.tododescription)
-    TextInputEditText todoDescription;
+
 
     @Inject
     AddTodoPresenterContract presenter;
@@ -46,9 +46,14 @@ public class AddTodoActivity extends AppCompatActivity
         addTodoComponent.inject(this);
     }
 
-    @OnClick(R.id.save)
+    @OnClick(R.id.save_fab)
     public void saveTodo(){
         presenter.saveTodo();
+    }
+
+    @OnClick(R.id.cross_button)
+    public void crossClicked(){
+        finish();
     }
 
     @Override
@@ -59,36 +64,15 @@ public class AddTodoActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean isTodoValidDetail() {
-        todoDescription.setError(null);
-        return todoDescription.getText()!=null
-                && !(todoDescription.getText().toString().trim().isEmpty());
-    }
-
-    @Override
     public void showAppropriateError() {
         if(todoTitle.getText().toString().trim().isEmpty()){
             todoTitle.setError(getString(R.string.todo_title_error));
         }
-
-        if(todoDescription.getText().toString().trim().isEmpty()){
-            todoDescription.setError(getString(R.string.todo_description_error));
-        }
-    }
-
-    @Override
-    public AddTodoComponent getAddTodoComponent() {
-        return addTodoComponent;
     }
 
     @Override
     public String getTodoTitle() {
         return todoTitle.getText().toString();
-    }
-
-    @Override
-    public String getTodoDesc() {
-        return todoDescription.getText().toString();
     }
 
     @Override
@@ -101,7 +85,6 @@ public class AddTodoActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //clean up resources.
         presenter.closeDb();
         addTodoComponent = null;
     }

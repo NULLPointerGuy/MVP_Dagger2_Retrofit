@@ -37,7 +37,6 @@ public class AddTodoTestPresenter {
     @Test
     public void whenAnyFieldIsEmptyShowError(){
         when(mockView.isTodoValidTitle()).thenReturn(false);
-        when(mockView.isTodoValidDetail()).thenReturn(false);
 
         mockPresenter.saveTodo();
 
@@ -47,7 +46,6 @@ public class AddTodoTestPresenter {
     @Test
     public void saveInDbWhenTheFieldsAreNonEmpty(){
         when(mockView.isTodoValidTitle()).thenReturn(true);
-        when(mockView.isTodoValidDetail()).thenReturn(true);
 
         mockPresenter.saveTodo();
 
