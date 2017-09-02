@@ -25,13 +25,7 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
     @Override
     public void saveTodo() {
         if(view.isTodoValidTitle()){
-            Todo todo = new Todo();
-            todo.setTodoTitle(view.getTodoTitle());
-            if(view.isReminderSet()){
-                todo.setReminderSet(true);
-                todo.setNotifyTime(view.getComposedReminderTime());
-            }
-            dbhander.saveTodo(todo);
+            dbhander.saveTodo(view.getTodoTitle(),view.isReminderSet(),view.getComposedReminderTime());
             view.showSaveSuccessMessage();
             return;
         }

@@ -16,16 +16,16 @@ public class Dbhander {
         this.realmdb = realmdb;
     }
 
-    public void saveTodo(Todo todo){
+    public void saveTodo(String title,boolean isReminderSet,String notifyTime){
        if(realmdb==null||realmdb.isClosed())
            throw new IllegalStateException("db is closed for null please recreate handler");
 
        realmdb.beginTransaction();
        Todo tododb = realmdb.createObject(Todo.class,autoIncTodo());
-       tododb.setTodoTitle(todo.getTodoTitle());
-       if(todo.isReminderSet()){
+       tododb.setTodoTitle(title);
+       if(isReminderSet){
            tododb.setReminderSet(true);
-           tododb.setNotifyTime(todo.getNotifyTime());
+           tododb.setNotifyTime(notifyTime);
        }
        realmdb.commitTransaction();
     }

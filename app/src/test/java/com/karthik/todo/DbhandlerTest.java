@@ -40,7 +40,6 @@ public class DbhandlerTest {
 
         Todo todo = new Todo();
         todo.setTodoTitle("demo title");
-        todo.setTodoDesc("demo description");
         dbhander.saveTodo(todo);
     }
 }
