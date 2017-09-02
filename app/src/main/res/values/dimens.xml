@@ -6,4 +6,5 @@
     <dimen name="add_todo_cross">8dp</dimen>
     <dimen name="task_card_elv">1dp</dimen>
     <dimen name="task_card_margintop">12dp</dimen>
+    <dimen name="add_todo_wrapper_height">250dp</dimen>
 </resources>

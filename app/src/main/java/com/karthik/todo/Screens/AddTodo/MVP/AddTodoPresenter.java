@@ -3,6 +3,9 @@ package com.karthik.todo.Screens.AddTodo.MVP;
 import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.DB.Models.Todo;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 /**
@@ -24,6 +27,10 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
         if(view.isTodoValidTitle()){
             Todo todo = new Todo();
             todo.setTodoTitle(view.getTodoTitle());
+            if(view.isReminderSet()){
+                todo.setReminderSet(true);
+                todo.setNotifyTime(view.getComposedReminderTime());
+            }
             dbhander.saveTodo(todo);
             view.showSaveSuccessMessage();
             return;
@@ -34,5 +41,24 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
     @Override
     public void closeDb() {
         dbhander.closeDb();
+    }
+
+    @Override
+    public void showDateSelection() {
+        view.showDatePickerDialog();
+    }
+
+    @Override
+    public void showTimeSelection() {
+        view.showTimePickerDialog();
+    }
+
+    @Override
+    public void setComposedDateAndTime(Calendar cal) {
+       String formattedDate = cal.get(Calendar.DAY_OF_MONTH)+" "
+               +cal.getDisplayName(Calendar.MONTH,Calendar.SHORT,Locale.getDefault())
+               +" "+cal.get(Calendar.YEAR);
+       String formattedTime = cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
+       view.setDefaultDateAndTime(formattedDate,formattedTime);
     }
 }

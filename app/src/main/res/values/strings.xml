@@ -11,4 +11,6 @@
     <string name="save_success">Todo is saved successfully</string>
     <string name="oops_something">Oops something went wrong</string>
     <string name="weather_info">"It's gonna be a %s"</string>
+    <string name="remindme">Set Reminder</string>
+    <string name="remindersettime">You will be reminded about this task on %s %d  at %d:%d</string>
 </resources>

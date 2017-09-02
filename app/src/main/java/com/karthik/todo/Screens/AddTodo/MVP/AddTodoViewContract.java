@@ -2,6 +2,8 @@ package com.karthik.todo.Screens.AddTodo.MVP;
 
 import com.karthik.todo.Screens.AddTodo.DI.AddTodoComponent;
 
+import java.util.Calendar;
+
 /**
  * Created by karthikr on 8/8/17.
  */
@@ -11,4 +13,9 @@ public interface AddTodoViewContract {
     void showAppropriateError();
     String getTodoTitle();
     void showSaveSuccessMessage();
+    void showDatePickerDialog();
+    void showTimePickerDialog();
+    void setDefaultDateAndTime(String formattedDate, String formattedTime);
+    boolean isReminderSet();
+    String getComposedReminderTime();
 }

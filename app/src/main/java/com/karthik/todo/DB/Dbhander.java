@@ -23,7 +23,10 @@ public class Dbhander {
        realmdb.beginTransaction();
        Todo tododb = realmdb.createObject(Todo.class,autoIncTodo());
        tododb.setTodoTitle(todo.getTodoTitle());
-       tododb.setTodoDesc(todo.getTodoDesc());
+       if(todo.isReminderSet()){
+           tododb.setReminderSet(true);
+           tododb.setNotifyTime(todo.getNotifyTime());
+       }
        realmdb.commitTransaction();
     }
 

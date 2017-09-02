@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.karthik.todo.DB.Models.Todo;
 import com.karthik.todo.R;
+import com.karthik.todo.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +38,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @Override
     public void onBindViewHolder(TaskHolder holder, int position) {
         holder.todoTitle.setText(todos.get(position).getTodoTitle());
-        holder.todoDesc.setText(todos.get(position).getTodoDesc());
+        holder.todotime.setText(todos.get(position).getNotifyTime());
         holder.doneCheck.setChecked(todos.get(position).isDone());
     }
 
@@ -50,8 +51,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             CompoundButton.OnCheckedChangeListener,View.OnClickListener{
         @BindView(R.id.todoTitle)
         TextView todoTitle;
-        @BindView(R.id.tododesc)
-        TextView todoDesc;
+        @BindView(R.id.todotime)
+        TextView todotime;
         @BindView(R.id.done_check)
         CheckBox doneCheck;
         public TaskHolder(View itemView) {
@@ -65,11 +66,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
             if(isChecked){
                 todoTitle.setPaintFlags(todoTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                todoDesc.setPaintFlags(todoDesc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 return;
             }
             todoTitle.setPaintFlags(0);
-            todoDesc.setPaintFlags(0);
         }
 
         @Override
