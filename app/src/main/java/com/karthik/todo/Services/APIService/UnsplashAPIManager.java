@@ -1,8 +1,6 @@
-package com.karthik.todo.APIService;
+package com.karthik.todo.Services.APIService;
 
 
-
-import com.google.gson.Gson;
 
 import com.karthik.todo.BuildConfig;
 import com.karthik.todo.Pojo.Unsplash;

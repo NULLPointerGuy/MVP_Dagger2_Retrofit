@@ -1,15 +1,14 @@
 package com.karthik.todo;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
 
-import com.karthik.todo.APIService.ForecastAPIManager;
-import com.karthik.todo.APIService.UnsplashAPIManager;
+import com.karthik.todo.Services.APIService.ForecastAPIManager;
+import com.karthik.todo.Services.APIService.UnsplashAPIManager;
 import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.Pojo.Currently;
 import com.karthik.todo.Pojo.Forecast;
@@ -17,16 +16,11 @@ import com.karthik.todo.Pojo.Result;
 import com.karthik.todo.Pojo.Unsplash;
 import com.karthik.todo.Pojo.Urls;
 import com.karthik.todo.Screens.Todo.MVP.TodoPresenter;
-import com.karthik.todo.Screens.Todo.MVP.TodoPresenterContract;
 import com.karthik.todo.Screens.Todo.MVP.TodoViewContract;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Captor;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;

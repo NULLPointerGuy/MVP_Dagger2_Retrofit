@@ -8,8 +8,8 @@ import android.annotation.SuppressLint;
 import android.location.Location;
 import android.util.Log;
 
-import com.karthik.todo.APIService.ForecastAPIManager;
-import com.karthik.todo.APIService.UnsplashAPIManager;
+import com.karthik.todo.Services.APIService.ForecastAPIManager;
+import com.karthik.todo.Services.APIService.UnsplashAPIManager;
 import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.Pojo.Forecast;
 import com.karthik.todo.Pojo.Unsplash;

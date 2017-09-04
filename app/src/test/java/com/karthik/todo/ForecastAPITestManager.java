@@ -2,8 +2,8 @@ package com.karthik.todo;
 
 
 
-import com.karthik.todo.APIService.ForecastAPIManager;
-import com.karthik.todo.APIService.ForecastService;
+import com.karthik.todo.Services.APIService.ForecastAPIManager;
+import com.karthik.todo.Services.APIService.ForecastService;
 import com.karthik.todo.Pojo.Currently;
 import com.karthik.todo.Pojo.Forecast;
 
@@ -18,8 +18,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Objects;
 
-import okhttp3.Headers;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

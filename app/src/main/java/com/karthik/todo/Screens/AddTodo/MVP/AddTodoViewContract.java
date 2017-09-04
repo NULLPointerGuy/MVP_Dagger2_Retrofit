@@ -1,5 +1,8 @@
 package com.karthik.todo.Screens.AddTodo.MVP;
 
+import android.os.Bundle;
+
+import com.firebase.jobdispatcher.Job;
 import com.karthik.todo.Screens.AddTodo.DI.AddTodoComponent;
 
 import java.util.Calendar;
@@ -18,4 +21,6 @@ public interface AddTodoViewContract {
     void setDefaultDateAndTime(String formattedDate, String formattedTime);
     boolean isReminderSet();
     String getComposedReminderTime();
+    Bundle getBundleForJob(String title,int id,String composedTitle);
+    long getSetTimeInMilli();
 }

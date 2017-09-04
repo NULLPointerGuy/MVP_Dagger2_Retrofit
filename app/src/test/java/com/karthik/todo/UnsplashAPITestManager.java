@@ -1,9 +1,7 @@
 package com.karthik.todo;
 
-import com.karthik.todo.APIService.UnsplashAPIManager;
-import com.karthik.todo.APIService.UnsplashService;
-import com.karthik.todo.Pojo.Forecast;
-import com.karthik.todo.Pojo.Result;
+import com.karthik.todo.Services.APIService.UnsplashAPIManager;
+import com.karthik.todo.Services.APIService.UnsplashService;
 import com.karthik.todo.Pojo.Unsplash;
 
 import org.junit.Before;
@@ -13,10 +11,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
-import java.util.List;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

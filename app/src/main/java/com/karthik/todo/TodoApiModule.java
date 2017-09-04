@@ -1,9 +1,9 @@
 package com.karthik.todo;
 
-import com.karthik.todo.APIService.ForecastAPIManager;
-import com.karthik.todo.APIService.ForecastService;
-import com.karthik.todo.APIService.UnsplashAPIManager;
-import com.karthik.todo.APIService.UnsplashService;
+import com.karthik.todo.Services.APIService.ForecastAPIManager;
+import com.karthik.todo.Services.APIService.ForecastService;
+import com.karthik.todo.Services.APIService.UnsplashAPIManager;
+import com.karthik.todo.Services.APIService.UnsplashService;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

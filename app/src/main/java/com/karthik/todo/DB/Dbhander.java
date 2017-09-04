@@ -30,6 +30,13 @@ public class Dbhander {
        realmdb.commitTransaction();
     }
 
+    public int getRecentTodoId(){
+        return realmdb
+                .where(Todo.class)
+                .max("id")
+                .intValue();
+    }
+
     public boolean isDbEmpty(){
         return realmdb.isEmpty();
     }

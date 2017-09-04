@@ -16,11 +16,13 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.firebase.jobdispatcher.Job;
 import com.karthik.todo.Screens.AddTodo.DI.AddTodoComponent;
 import com.karthik.todo.Screens.AddTodo.DI.AddTodoModule;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenterContract;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoViewContract;
 import com.karthik.todo.R;
+import com.karthik.todo.Services.BackgroundJobService;
 import com.karthik.todo.TodoApp;
 import com.karthik.todo.Utils;
 
@@ -54,6 +56,7 @@ public class AddTodoActivity extends AppCompatActivity
     @Inject
     AddTodoPresenterContract presenter;
     private AddTodoComponent addTodoComponent;
+
     private Calendar calendar;
 
     @Override
@@ -167,6 +170,20 @@ public class AddTodoActivity extends AppCompatActivity
     @Override
     public String getComposedReminderTime() {
         return Utils.getComposedTime(this,calendar);
+    }
+
+    @Override
+    public Bundle getBundleForJob(String title, int id, String composedTitle) {
+        Bundle bundle  = new Bundle();
+        bundle.putString(BackgroundJobService.notificationTitle,title);
+        bundle.putString(BackgroundJobService.notificationMessage,composedTitle);
+        bundle.putInt(BackgroundJobService.notificationId,id);
+        return bundle;
+    }
+
+    @Override
+    public long getSetTimeInMilli() {
+        return calendar.getTimeInMillis();
     }
 
     @Override

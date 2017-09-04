@@ -12,4 +12,6 @@ public interface AddTodoPresenterContract {
     void showDateSelection();
     void showTimeSelection();
     void setComposedDateAndTime(Calendar calendar);
+    long getDiffTime();
+    int getTimeInSec(long milli);
 }

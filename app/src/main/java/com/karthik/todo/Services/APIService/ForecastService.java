@@ -1,4 +1,4 @@
-package com.karthik.todo.APIService;
+package com.karthik.todo.Services.APIService;
 
 import com.karthik.todo.Pojo.Forecast;
 

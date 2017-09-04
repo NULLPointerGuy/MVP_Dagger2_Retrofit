@@ -1,5 +1,9 @@
 package com.karthik.todo.Screens.AddTodo.DI;
 
+import android.content.Context;
+
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenter;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenterContract;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoViewContract;
@@ -38,7 +42,13 @@ public class AddTodoModule {
     }
 
     @Provides
-    AddTodoPresenterContract providesPresenter(AddTodoViewContract viewContract,Dbhander dbhander){
-        return new AddTodoPresenter(viewContract,dbhander);
+    FirebaseJobDispatcher providesFireBaseJobDispatcher(Context context){
+        return new FirebaseJobDispatcher(new GooglePlayDriver(context));
+    }
+
+    @Provides
+    AddTodoPresenterContract providesPresenter(AddTodoViewContract viewContract,Dbhander dbhander,
+                                               FirebaseJobDispatcher jobDispatcher){
+        return new AddTodoPresenter(viewContract,dbhander,jobDispatcher);
     }
 }
