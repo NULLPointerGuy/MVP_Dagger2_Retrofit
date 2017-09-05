@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.Calendar.DAY_OF_MONTH;
 import static org.mockito.Mockito.mock;
@@ -124,4 +125,27 @@ public class AddTodoTestPresenter {
 
         Assert.assertEquals(mockPresenter.getDiffTime()>0,true);
     }
+
+    @Test
+    public void verifyTimeIsInMilliSec(){
+        long milli  = Calendar.getInstance().getTimeInMillis();
+        long sec = TimeUnit.MILLISECONDS.toSeconds(milli);
+        Assert.assertEquals(mockPresenter.getTimeInSec(milli),sec);
+    }
+
+    @Test
+    public void titleAndComposedReminderTimeCalledForGivenTaskId(){
+        mockPresenter.getBundleForJob(0);
+
+        verify(mockView,times(1)).getTodoTitle();
+        verify(mockView,times(1)).getComposedReminderTime();
+    }
+
+    @Test
+    public void verifyGetJobForTaskInteractionInView(){
+        mockPresenter.getJobForTask(0);
+
+        verify(mockView,times(1)).getJobFor(0);
+    }
+
 }

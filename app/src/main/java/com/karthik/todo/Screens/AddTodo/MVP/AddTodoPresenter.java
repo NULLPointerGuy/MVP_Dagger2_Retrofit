@@ -73,7 +73,7 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
 
     @Override
     public int getTimeInSec(long milli) {
-        return (int) (getDiffTime()/1000);
+        return (int) (milli/1000);
     }
 
     @Override
