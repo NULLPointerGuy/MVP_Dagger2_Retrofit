@@ -47,8 +47,7 @@ public class AddTodoModule {
     }
 
     @Provides
-    AddTodoPresenterContract providesPresenter(AddTodoViewContract viewContract,Dbhander dbhander,
-                                               FirebaseJobDispatcher jobDispatcher){
-        return new AddTodoPresenter(viewContract,dbhander,jobDispatcher);
+    AddTodoPresenterContract providesPresenter(AddTodoViewContract viewContract,Dbhander dbhander){
+        return new AddTodoPresenter(viewContract,dbhander);
     }
 }

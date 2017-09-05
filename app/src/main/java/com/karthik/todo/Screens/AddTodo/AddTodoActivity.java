@@ -16,7 +16,11 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.karthik.todo.Screens.AddTodo.DI.AddTodoComponent;
 import com.karthik.todo.Screens.AddTodo.DI.AddTodoModule;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenterContract;
@@ -55,6 +59,8 @@ public class AddTodoActivity extends AppCompatActivity
 
     @Inject
     AddTodoPresenterContract presenter;
+    @Inject
+    FirebaseJobDispatcher jobDispatcher;
     private AddTodoComponent addTodoComponent;
 
     private Calendar calendar;
@@ -184,6 +190,25 @@ public class AddTodoActivity extends AppCompatActivity
     @Override
     public long getSetTimeInMilli() {
         return calendar.getTimeInMillis();
+    }
+
+    @Override
+    public Job getJobFor(int taskId) {
+        int sec = presenter.getTimeInSec(presenter.getDiffTime());
+        return jobDispatcher.newJobBuilder()
+                .setService(BackgroundJobService.class)
+                .setTag(String.valueOf(taskId))
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.executionWindow(sec,sec))
+                .setReplaceCurrent(false)
+                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                .setExtras(presenter.getBundleForJob(taskId))
+                .build();
+    }
+
+    @Override
+    public void scheduleJob(Job job,int taskId) {
+        jobDispatcher.schedule(presenter.getJobForTask(taskId));
     }
 
     @Override

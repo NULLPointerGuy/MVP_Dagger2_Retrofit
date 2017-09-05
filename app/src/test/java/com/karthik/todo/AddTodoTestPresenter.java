@@ -1,5 +1,9 @@
 package com.karthik.todo;
 
+import android.os.Bundle;
+
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.Job;
 import com.karthik.todo.DB.Dbhander;
 import com.karthik.todo.DB.Models.Todo;
 import com.karthik.todo.Screens.AddTodo.MVP.AddTodoPresenter;
@@ -16,7 +20,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import static java.util.Calendar.DAY_OF_MONTH;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -25,6 +28,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by karthikrk on 16/08/17.
  */
+
 
 public class AddTodoTestPresenter {
     @Mock
@@ -55,7 +59,7 @@ public class AddTodoTestPresenter {
 
         mockPresenter.saveTodo();
 
-        verify(dbhander,times(1)).saveTodo(any(Todo.class));
+        verify(dbhander,times(1)).saveTodo(null,false,null);
         verify(mockView,times(1)).showSaveSuccessMessage();
     }
 
@@ -72,7 +76,8 @@ public class AddTodoTestPresenter {
 
         mockPresenter.saveTodo();
 
-        verify(mockView,times(1)).getComposedReminderTime();
+        verify(mockView,times(1)).getJobFor(0);
+        verify(mockView,times(1)).scheduleJob(null,0);
     }
 
     @Test
@@ -109,5 +114,14 @@ public class AddTodoTestPresenter {
         Assert.assertEquals(formattedTime,"4:10");
 
         verify(mockView,times(1)).setDefaultDateAndTime(formattedDate,formattedTime);
+    }
+
+    @Test
+    public void diffTimeForJobSchedulerShouldBePositive(){
+        Calendar futureCal = Calendar.getInstance();
+        futureCal.add(Calendar.DATE,1);
+        when(mockView.getSetTimeInMilli()).thenReturn(futureCal.getTimeInMillis());
+
+        Assert.assertEquals(mockPresenter.getDiffTime()>0,true);
     }
 }

@@ -2,13 +2,11 @@ package com.karthik.todo.Screens.AddTodo.MVP;
 
 
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import android.os.Bundle;
+
+
 import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
 import com.karthik.todo.DB.Dbhander;
-import com.karthik.todo.Services.BackgroundJobService;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -22,13 +20,11 @@ import javax.inject.Inject;
 public class AddTodoPresenter implements AddTodoPresenterContract {
     private AddTodoViewContract view;
     private Dbhander dbhander;
-    private FirebaseJobDispatcher jobDispatcher;
 
     @Inject
-    public AddTodoPresenter(AddTodoViewContract viewContract, Dbhander dbhander, FirebaseJobDispatcher jobDispatcher){
+    public AddTodoPresenter(AddTodoViewContract viewContract, Dbhander dbhander){
         this.view = viewContract;
         this.dbhander = dbhander;
-        this.jobDispatcher = jobDispatcher;
     }
 
     @Override
@@ -36,7 +32,8 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
         if(view.isTodoValidTitle()){
             dbhander.saveTodo(view.getTodoTitle(),view.isReminderSet(),view.getComposedReminderTime());
             if(view.isReminderSet()){
-                jobDispatcher.schedule(getJobFor(dbhander.getRecentTodoId()));
+                int recentId = dbhander.getRecentTodoId();
+                view.scheduleJob(view.getJobFor(recentId),recentId);
             }
             view.showSaveSuccessMessage();
             return;
@@ -79,17 +76,13 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
         return (int) (getDiffTime()/1000);
     }
 
-    private Job getJobFor(int recentTodoId) {
+    @Override
+    public Bundle getBundleForJob(int taskId) {
+        return view.getBundleForJob(view.getTodoTitle(),taskId,view.getComposedReminderTime());
+    }
 
-       int sec = getTimeInSec(getDiffTime());
-       return jobDispatcher.newJobBuilder()
-                .setService(BackgroundJobService.class)
-                .setTag(String.valueOf(recentTodoId))
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(sec,sec))
-                .setReplaceCurrent(false)
-                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                .setExtras(view.getBundleForJob(view.getTodoTitle(),recentTodoId,view.getComposedReminderTime()))
-                .build();
+    @Override
+    public Job getJobForTask(int taskId) {
+        return view.getJobFor(taskId);
     }
 }

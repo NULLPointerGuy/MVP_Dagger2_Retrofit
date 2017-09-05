@@ -23,4 +23,6 @@ public interface AddTodoViewContract {
     String getComposedReminderTime();
     Bundle getBundleForJob(String title,int id,String composedTitle);
     long getSetTimeInMilli();
+    Job getJobFor(int taskId);
+    void scheduleJob(Job job,int taskId);
 }
