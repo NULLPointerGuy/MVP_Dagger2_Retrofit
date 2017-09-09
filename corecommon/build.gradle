@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+apply plugin: 'realm-android'
+android {
+    compileSdkVersion COMPLILE_SDK_VERSION
+    buildToolsVersion "${BUILD_TOOL_VERSION}"
+
+
+    defaultConfig {
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion COMPLILE_SDK_VERSION
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "UNSPLASH_URL", '"https://api.unsplash.com/"'
+            buildConfigField "String", "UNSPLASH_API_KEY", '""'
+            buildConfigField "String", "FORECAST_URL", '"https://api.darksky.net/"'
+            buildConfigField "String", "FORECAST_API_KEY", '""'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "UNSPLASH_URL", '"https://api.unsplash.com/"'
+            buildConfigField "String", "UNSPLASH_API_KEY", '""'
+            buildConfigField "String", "FORECAST_URL", '"https://api.darksky.net/"'
+            buildConfigField "String", "FORECAST_API_KEY", '""'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.google.android.gms:play-services-location:11.0.1"
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile "com.squareup.okhttp3:logging-interceptor:3.4.1"
+    compile 'com.firebase:firebase-jobdispatcher:0.8.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //testing
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
+    testCompile "org.mockito:mockito-core:2.8.47"
+
+}
