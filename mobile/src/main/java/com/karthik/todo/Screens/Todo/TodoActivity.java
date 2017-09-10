@@ -27,7 +27,7 @@ import com.karthik.corecommon.Models.Todo;
 
 import com.karthik.corecommon.Presenters.Contracts.TodoPresenterContract;
 import com.karthik.corecommon.Views.TodoView;
-import com.karthik.todo.Utils;
+import com.karthik.corecommon.Utils;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;

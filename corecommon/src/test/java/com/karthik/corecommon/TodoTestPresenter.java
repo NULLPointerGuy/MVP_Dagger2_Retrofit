@@ -1,4 +1,4 @@
-package com.karthik.todo;
+package com.karthik.corecommon;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.Task;

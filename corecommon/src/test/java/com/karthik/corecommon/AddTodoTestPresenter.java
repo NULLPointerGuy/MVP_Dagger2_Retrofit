@@ -1,4 +1,4 @@
-package com.karthik.todo;
+package com.karthik.corecommon;
 
 import com.karthik.corecommon.Db.Dbhander;
 import com.karthik.corecommon.Presenters.AddTodoPresenter;

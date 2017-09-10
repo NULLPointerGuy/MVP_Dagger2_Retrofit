@@ -27,7 +27,7 @@ import com.karthik.corecommon.Views.AddTodoView;
 import com.karthik.todo.R;
 import com.karthik.todo.Services.BackgroundJobService;
 import com.karthik.corecommon.TodoApp;
-import com.karthik.todo.Utils;
+import com.karthik.corecommon.Utils;
 
 import java.util.Calendar;
 

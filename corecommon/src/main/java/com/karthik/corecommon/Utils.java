@@ -1,6 +1,7 @@
-package com.karthik.todo;
+package com.karthik.corecommon;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -13,7 +14,7 @@ import java.util.Locale;
 /**
  * Created by karthikrk on 12/08/17.
  */
-
+@SuppressLint("MissingPermission")
 public class Utils {
     public static boolean isInternetAvailable(Context context){
         ConnectivityManager cm = (ConnectivityManager)
