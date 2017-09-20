@@ -23,10 +23,17 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+//dependencies versions.
 ext{
     BUILD_TOOL_VERSION='26.0.0'
     BUTTERKNIFE_VERSION = '8.8.0'
     DAGGER_VERSION = '2.10'
     COMPLILE_SDK_VERSION=26
     MIN_SDK_VERSION=21
+    GOOGLE_PLAY_VER ='11.2.2'
+    RETROFIT_VER='2.3.0'
+    RETROFIT_CONV_VER='2.2.0'
+    RETROFIT_LOGGER_VER='3.4.1'
+    PICASSO_VER='2.5.2'
+    FIREBASE_JOB_DISP_VER='0.8.1'
 }
