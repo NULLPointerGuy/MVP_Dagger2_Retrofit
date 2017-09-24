@@ -6,7 +6,7 @@
         android:background="@color/dark_grey"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.karthik.myapplication.Screens.Todo.TodoActivity"
+        tools:context="com.karthik.todo.Screens.Todo.TodoActivity"
         tools:deviceIds="wear"
         android:padding="@dimen/box_inset_layout_padding"
         android:backgroundTint="@color/colorPrimary">

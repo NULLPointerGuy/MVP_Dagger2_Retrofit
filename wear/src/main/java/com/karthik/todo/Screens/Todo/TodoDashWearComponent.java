@@ -1,4 +1,4 @@
-package com.karthik.myapplication.Screens.Todo;
+package com.karthik.todo.Screens.Todo;
 
 import com.karthik.corecommon.Components.TodoComponent;
 import com.karthik.corecommon.Modules.TodoModule;

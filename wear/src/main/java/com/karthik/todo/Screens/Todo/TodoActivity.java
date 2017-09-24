@@ -1,4 +1,4 @@
-package com.karthik.myapplication.Screens.Todo;
+package com.karthik.todo.Screens.Todo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.karthik.corecommon.Modules.TodoModule;
 import com.karthik.corecommon.Presenters.Contracts.TodoPresenterContract;
 import com.karthik.corecommon.TodoApp;
 import com.karthik.corecommon.Views.TodoView;
-import com.karthik.myapplication.AddTodoCallback;
-import com.karthik.myapplication.R;
-import com.karthik.myapplication.Screens.AddTodo.AddTodoActivity;
+import com.karthik.todo.AddTodoCallback;
+import com.karthik.todo.R;
+import com.karthik.todo.Screens.AddTodo.AddTodoActivity;
 
 import javax.inject.Inject;
 

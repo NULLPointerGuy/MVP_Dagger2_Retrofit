@@ -1,17 +1,15 @@
-package com.karthik.myapplication.Screens.AddTodo;
+package com.karthik.todo.Screens.AddTodo;
 
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.firebase.jobdispatcher.Job;
 import com.karthik.corecommon.Modules.AddTodoModule;
 import com.karthik.corecommon.Presenters.Contracts.AddTodoPresenterContract;
 import com.karthik.corecommon.TodoApp;
 import com.karthik.corecommon.Views.AddTodoView;
-import com.karthik.myapplication.R;
+import com.karthik.todo.R;
 
 import javax.inject.Inject;
 

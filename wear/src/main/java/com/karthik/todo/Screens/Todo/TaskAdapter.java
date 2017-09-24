@@ -1,6 +1,5 @@
-package com.karthik.myapplication.Screens.Todo;
+package com.karthik.todo.Screens.Todo;
 
-import android.support.v7.widget.RecyclerView;
 import android.support.wear.widget.WearableRecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.karthik.corecommon.Models.Todo;
-import com.karthik.corecommon.Scopes.AddTodo;
-import com.karthik.myapplication.AddTodoCallback;
-import com.karthik.myapplication.R;
+import com.karthik.todo.AddTodoCallback;
+import com.karthik.todo.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
