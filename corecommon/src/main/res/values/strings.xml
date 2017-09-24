@@ -7,7 +7,7 @@
     <string name="todo_title_error">Please enter valid todo title</string>
     <string name="todo_description_error">Please enter valid todo description</string>
     <string name="add_todo">Add Todo</string>
-    <string name="press_plus">Press the plus icon to get started</string>
+    <string name="press_plus">No Tasks</string>
     <string name="save_success">Todo is saved successfully</string>
     <string name="oops_something">Oops something went wrong</string>
     <string name="weather_info">"It's gonna be a %s"</string>

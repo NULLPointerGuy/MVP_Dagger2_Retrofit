@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/addTodoWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/grey"
+        android:padding="@dimen/todo_row_padding"
+        android:gravity="center">
+    <android.support.wear.widget.CircledImageView
+            android:id="@+id/addTodo"
+            android:layout_width="@dimen/fab_size"
+            android:layout_height="@dimen/fab_size"
+            android:src="@android:drawable/ic_input_add"
+            app:img_tint="@color/white"
+            android:background="@drawable/round_fab_button"
+            />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/add_todo_margin_left"
+            android:text="@string/add_todo"
+            android:gravity="center"
+            style="?android:textAppearanceMedium"
+            android:textColor="@color/primary_text"/>
+</LinearLayout>

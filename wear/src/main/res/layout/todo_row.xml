@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:padding="@dimen/todo_row_padding"
+              android:weightSum="1"
+              android:gravity="center"
+              android:layout_marginBottom="0.5dp"
+              android:background="@color/colorPrimaryDark">
+    <TextView
+            android:id="@+id/todoTitle"
+            android:layout_width="0dp"
+            android:layout_weight="0.75"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:gravity="center"
+            android:ellipsize="end"
+            style="?android:textAppearanceMedium"
+            android:textColor="@color/white"
+            tools:text="Walk the dog"/>
+
+    <CheckBox
+            android:id="@+id/done_check"
+            android:layout_weight="0.25"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -113,9 +113,7 @@ public class AddTodoActivity extends AppCompatActivity
 
     @Override
     public void showAppropriateError() {
-        if(todoTitle.getText().toString().trim().isEmpty()){
-            todoTitle.setError(getString(R.string.todo_title_error));
-        }
+        todoTitle.setError(getString(R.string.todo_title_error));
     }
 
     @Override

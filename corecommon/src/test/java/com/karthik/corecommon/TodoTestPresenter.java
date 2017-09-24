@@ -16,7 +16,7 @@ import com.karthik.corecommon.Models.Result;
 import com.karthik.corecommon.Models.Unsplash;
 import com.karthik.corecommon.Models.Urls;
 import com.karthik.corecommon.Presenters.TodoPresenter;
-import com.karthik.corecommon.Views.TodoView;
+import com.karthik.corecommon.Views.TodoAppView;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -53,7 +53,7 @@ public class TodoTestPresenter {
     @Mock
     FusedLocationProviderClient locationClient;
     @Mock
-    TodoView mockView;
+    TodoAppView mockView;
     private TodoPresenter mockPresenter;
 
     @Before
