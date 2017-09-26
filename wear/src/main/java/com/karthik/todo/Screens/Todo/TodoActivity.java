@@ -83,46 +83,6 @@ public class TodoActivity extends WearableActivity implements TodoView,AddTodoCa
         taskList.setAdapter(new TaskAdapter(todo,this));
     }
 
-    @Override
-    public void saveInCache(String date, String json) {
-
-    }
-
-    @Override
-    public void loadImage(String url) {
-
-    }
-
-    @Override
-    public boolean isCachePresent(String date) {
-        return false;
-    }
-
-    @Override
-    public String getFromCache(String date) {
-        return null;
-    }
-
-    @Override
-    public void setDashBoardTitle(String date) {
-
-    }
-
-    @Override
-    public void setForeCastInfo(String foreCastInfo) {
-
-    }
-
-    @Override
-    public boolean isLocationPermGranted() {
-        return false;
-    }
-
-    @Override
-    public void askLocationPermission() {
-
-    }
-
     private void intialize() {
        wearComponent =  DaggerTodoDashWearComponent.builder()
                 .todoComponent(((TodoApp)getApplication()).getComponent())

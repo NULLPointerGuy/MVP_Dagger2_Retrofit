@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.karthik.corecommon.Db.CacheManagedView;
 import com.karthik.corecommon.Modules.TodoModule;
 import com.karthik.corecommon.TodoApp;
+import com.karthik.corecommon.Views.DashBoardManagedView;
 import com.karthik.todo.R;
 import com.karthik.todo.Screens.AddTodo.AddTodoActivity;
 import com.karthik.corecommon.Models.Todo;
@@ -37,7 +39,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.RealmResults;
 
-public class TodoActivity extends AppCompatActivity implements TodoView {
+public class TodoActivity extends AppCompatActivity implements TodoView,
+        CacheManagedView,
+        DashBoardManagedView {
 
     private TodoDashComponent dashComponent;
     private final int REQUEST_LOCATION_CAPTURE = 1;
@@ -78,9 +82,12 @@ public class TodoActivity extends AppCompatActivity implements TodoView {
     }
 
     private void intialize() {
+        TodoModule todoModule = new TodoModule(this,this);
+        todoModule.setCacheManagedView(this);
+        todoModule.setDashBoardManagedView(this);
         dashComponent =  DaggerTodoDashComponent.builder()
                 .todoComponent(((TodoApp)getApplication()).getComponent())
-                .todoModule(new TodoModule(this,this))
+                .todoModule(todoModule)
                 .build();
         dashComponent.inject(this);
         ButterKnife.bind(this);

@@ -14,12 +14,4 @@ public interface TodoView {
     void hideEmptyTextAndShowTask();
     void showEmptyTextAndHideTask();
     void loadTasks(RealmResults<Todo> todo);
-    void saveInCache(String date,String json);
-    void loadImage(String url);
-    boolean isCachePresent(String date);
-    String getFromCache(String date);
-    void setDashBoardTitle(String date);
-    void setForeCastInfo(String foreCastInfo);
-    boolean isLocationPermGranted();
-    void askLocationPermission();
 }

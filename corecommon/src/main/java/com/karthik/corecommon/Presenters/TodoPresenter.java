@@ -8,9 +8,12 @@ import android.annotation.SuppressLint;
 import android.location.Location;
 import android.util.Log;
 
+import com.karthik.corecommon.Db.CacheManagedView;
 import com.karthik.corecommon.Models.Forecast;
 import com.karthik.corecommon.Models.Unsplash;
 import com.karthik.corecommon.Presenters.Contracts.TodoPresenterContract;
+import com.karthik.corecommon.TodoApp;
+import com.karthik.corecommon.Views.DashBoardManagedView;
 import com.karthik.corecommon.Views.TodoView;
 import com.karthik.corecommon.APIService.ForecastAPIManager;
 import com.karthik.corecommon.APIService.UnsplashAPIManager;
@@ -37,9 +40,13 @@ public class TodoPresenter implements TodoPresenterContract,
     private ForecastAPIManager forecastAPIManager;
     private FusedLocationProviderClient locationClient;
     private String weatherString;
+    private CacheManagedView cacheManagedView;
+    private DashBoardManagedView dashBoardManagedView;
 
     @Inject
     public TodoPresenter(TodoView view,
+                         CacheManagedView cacheManagedView,
+                         DashBoardManagedView dashBoardManagedView,
                          Dbhander dbhander,
                          UnsplashAPIManager unsplashAPIManager,
                          ForecastAPIManager forecastAPIManager,
@@ -51,6 +58,8 @@ public class TodoPresenter implements TodoPresenterContract,
         this.forecastAPIManager = forecastAPIManager;
         this.locationClient = providerClient;
         this.weatherString =  weatherString;
+        this.dashBoardManagedView =dashBoardManagedView;
+        this.cacheManagedView = cacheManagedView;
         intializeAPICallbacks();
     }
 
@@ -70,7 +79,7 @@ public class TodoPresenter implements TodoPresenterContract,
         String formatedDateString = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
                 + ", " + cal.get(Calendar.DAY_OF_MONTH)
                 + " " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " ";
-        view.setDashBoardTitle(formatedDateString);
+        dashBoardManagedView.setDashBoardTitle(formatedDateString);
     }
 
     @Override
@@ -85,9 +94,9 @@ public class TodoPresenter implements TodoPresenterContract,
 
     @Override
     public void getUnsplashImages(String genre) {
-        if (view.isCachePresent(getStringValueOfToday())) {
+        if (cacheManagedView.isCachePresent(getStringValueOfToday())) {
             Unsplash unsplash = new Gson()
-                    .fromJson(view.getFromCache(getStringValueOfToday()), Unsplash.class);
+                    .fromJson(cacheManagedView.getFromCache(getStringValueOfToday()), Unsplash.class);
             loadRandomImage(unsplash);
         } else {
             unsplashAPIManager.getPhotosList(genre);
@@ -97,7 +106,7 @@ public class TodoPresenter implements TodoPresenterContract,
     @SuppressLint("MissingPermission")
     @Override
     public void getLocation() {
-        if(view.isLocationPermGranted()){
+        if(dashBoardManagedView.isLocationPermGranted()){
             locationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
@@ -105,7 +114,7 @@ public class TodoPresenter implements TodoPresenterContract,
                 }
             });
         }else{
-            view.askLocationPermission();
+            dashBoardManagedView.askLocationPermission();
         }
     }
 
@@ -113,7 +122,7 @@ public class TodoPresenter implements TodoPresenterContract,
     public void onSuccess(Unsplash unsplash) {
         if(unsplash==null)
             return;
-        view.saveInCache(getStringValueOfToday(),new Gson().toJson(unsplash));
+        cacheManagedView.saveInCache(getStringValueOfToday(),new Gson().toJson(unsplash));
         loadRandomImage(unsplash);
     }
 
@@ -129,7 +138,7 @@ public class TodoPresenter implements TodoPresenterContract,
             return;
         }
         getUnsplashImages(forecast.getCurrently().getIcon());
-        view.setForeCastInfo(String.format(weatherString,
+        dashBoardManagedView.setForeCastInfo(String.format(weatherString,
                 forecast.getCurrently().getSummary()));
     }
 
@@ -155,6 +164,6 @@ public class TodoPresenter implements TodoPresenterContract,
         if(unsplash.getResults().size()==0)
             return;
         int random = new Random().nextInt(unsplash.getResults().size());
-        view.loadImage(unsplash.getResults().get(random).getUrls().getSmall());
+        dashBoardManagedView.loadImage(unsplash.getResults().get(random).getUrls().getSmall());
     }
 }

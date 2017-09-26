@@ -4,13 +4,16 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.karthik.corecommon.APIService.ForecastAPIManager;
 import com.karthik.corecommon.APIService.UnsplashAPIManager;
+import com.karthik.corecommon.Db.CacheManagedView;
 import com.karthik.corecommon.Db.Dbhander;
 import com.karthik.corecommon.Presenters.Contracts.TodoPresenterContract;
 import com.karthik.corecommon.Presenters.TodoPresenter;
 import com.karthik.corecommon.R;
+import com.karthik.corecommon.Views.DashBoardManagedView;
 import com.karthik.corecommon.Views.TodoView;
 
 import javax.inject.Named;
@@ -25,11 +28,22 @@ import io.realm.Realm;
 @Module
 public class TodoModule {
     private TodoView view;
+    private CacheManagedView cacheManagedView;
+    private DashBoardManagedView dashBoardManagedView;
     private Context activityContext;
+
 
     public TodoModule(TodoView view,Context activityContext){
         this.view = view;
         this.activityContext = activityContext;
+    }
+
+    public void setCacheManagedView(CacheManagedView cacheManagedView) {
+        this.cacheManagedView = cacheManagedView;
+    }
+
+    public void setDashBoardManagedView(DashBoardManagedView dashBoardManagedView) {
+        this.dashBoardManagedView = dashBoardManagedView;
     }
 
     @Provides
@@ -65,7 +79,9 @@ public class TodoModule {
                                             ForecastAPIManager forecastAPIManager,
                                             FusedLocationProviderClient locationProviderClient,
                                             @Named("WEATHERSTRING") String weatherString){
-        return new TodoPresenter(viewContract,dbhander,unsplashAPIManager,
-                forecastAPIManager,locationProviderClient,weatherString);
+        return new TodoPresenter(viewContract,cacheManagedView, dashBoardManagedView,
+                dbhander,unsplashAPIManager,
+                forecastAPIManager,
+                locationProviderClient,weatherString);
     }
 }
