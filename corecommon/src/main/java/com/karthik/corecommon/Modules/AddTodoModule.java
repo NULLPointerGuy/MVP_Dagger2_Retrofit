@@ -8,6 +8,8 @@ import com.karthik.corecommon.Db.Dbhander;
 import com.karthik.corecommon.Presenters.AddTodoPresenter;
 import com.karthik.corecommon.Presenters.Contracts.AddTodoPresenterContract;
 import com.karthik.corecommon.Views.AddTodoView;
+import com.karthik.corecommon.Views.DateTimeSelectionView;
+import com.karthik.corecommon.Views.ReminderManagedView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,9 +21,19 @@ import io.realm.Realm;
 @Module
 public class AddTodoModule {
     private AddTodoView view;
+    private DateTimeSelectionView dateTimeSelectionView;
+    private ReminderManagedView reminderManagedView;
 
     public AddTodoModule(AddTodoView view){
         this.view = view;
+    }
+
+    public void setDateTimeSelectionView(DateTimeSelectionView dateTimeSelectionView) {
+        this.dateTimeSelectionView = dateTimeSelectionView;
+    }
+
+    public void setReminderManagedView(ReminderManagedView reminderManagedView) {
+        this.reminderManagedView = reminderManagedView;
     }
 
     @Provides
@@ -46,6 +58,7 @@ public class AddTodoModule {
 
     @Provides
     AddTodoPresenterContract providesPresenter(AddTodoView viewContract, Dbhander dbhander){
-        return new AddTodoPresenter(viewContract,dbhander);
+        return new AddTodoPresenter(viewContract,dateTimeSelectionView,
+                reminderManagedView,dbhander);
     }
 }

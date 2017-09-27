@@ -24,6 +24,8 @@ import com.firebase.jobdispatcher.Trigger;
 import com.karthik.corecommon.Modules.AddTodoModule;
 import com.karthik.corecommon.Presenters.Contracts.AddTodoPresenterContract;
 import com.karthik.corecommon.Views.AddTodoView;
+import com.karthik.corecommon.Views.DateTimeSelectionView;
+import com.karthik.corecommon.Views.ReminderManagedView;
 import com.karthik.todo.R;
 import com.karthik.todo.Services.BackgroundJobService;
 import com.karthik.corecommon.TodoApp;
@@ -42,7 +44,10 @@ import butterknife.OnClick;
  */
 
 public class AddTodoActivity extends AppCompatActivity
-        implements AddTodoView,SwitchCompat.OnCheckedChangeListener{
+        implements AddTodoView,
+        DateTimeSelectionView,
+        ReminderManagedView,
+        SwitchCompat.OnCheckedChangeListener{
 
     @BindView(R.id.todotitle)
     TextInputEditText todoTitle;
@@ -69,9 +74,12 @@ public class AddTodoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
         ButterKnife.bind(this);
+        AddTodoModule addTodoModule = new AddTodoModule(this);
+        addTodoModule.setDateTimeSelectionView(this);
+        addTodoModule.setReminderManagedView(this);
         addTodoComponent = DaggerAddTodoComponent.builder()
                 .todoComponent(((TodoApp)getApplication()).getComponent())
-                .addTodoModule(new AddTodoModule(this))
+                .addTodoModule(addTodoModule)
                 .build();
         addTodoComponent.inject(this);
         reminder.setOnCheckedChangeListener(this);

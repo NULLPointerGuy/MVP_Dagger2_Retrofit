@@ -80,49 +80,4 @@ public class AddTodoActivity extends WearableActivity implements AddTodoView {
     public void showSaveSuccessMessage() {
         finish();
     }
-
-    @Override
-    public void showDatePickerDialog() {
-
-    }
-
-    @Override
-    public void showTimePickerDialog() {
-
-    }
-
-    @Override
-    public void setDefaultDateAndTime(String formattedDate, String formattedTime) {
-
-    }
-
-    @Override
-    public boolean isReminderSet() {
-        return false;
-    }
-
-    @Override
-    public String getComposedReminderTime() {
-        return null;
-    }
-
-    @Override
-    public Bundle getBundleForJob(String title, int id, String composedTitle) {
-        return null;
-    }
-
-    @Override
-    public long getSetTimeInMilli() {
-        return 0;
-    }
-
-    @Override
-    public Job getJobFor(int taskId) {
-        return null;
-    }
-
-    @Override
-    public void scheduleJob(Job job, int taskId) {
-
-    }
 }

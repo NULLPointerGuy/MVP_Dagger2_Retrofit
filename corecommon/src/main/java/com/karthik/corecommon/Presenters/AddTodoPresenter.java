@@ -9,6 +9,8 @@ import com.firebase.jobdispatcher.Job;
 import com.karthik.corecommon.Db.Dbhander;
 import com.karthik.corecommon.Presenters.Contracts.AddTodoPresenterContract;
 import com.karthik.corecommon.Views.AddTodoView;
+import com.karthik.corecommon.Views.DateTimeSelectionView;
+import com.karthik.corecommon.Views.ReminderManagedView;
 
 
 import java.util.Calendar;
@@ -23,20 +25,32 @@ import javax.inject.Inject;
 public class AddTodoPresenter implements AddTodoPresenterContract {
     private AddTodoView view;
     private Dbhander dbhander;
+    private DateTimeSelectionView dateTimeSelectionView;
+    private ReminderManagedView reminderManagedView;
 
     @Inject
-    public AddTodoPresenter(AddTodoView viewContract, Dbhander dbhander){
+    public AddTodoPresenter(AddTodoView viewContract,
+                            DateTimeSelectionView dateTimeSelectionView,
+                            ReminderManagedView reminderManagedView,
+                            Dbhander dbhander){
         this.view = viewContract;
         this.dbhander = dbhander;
+        this.dateTimeSelectionView = dateTimeSelectionView;
+        this.reminderManagedView = reminderManagedView;
     }
 
     @Override
     public void saveTodo() {
         if(view.isTodoValidTitle()){
-            dbhander.saveTodo(view.getTodoTitle(),view.isReminderSet(),view.getComposedReminderTime());
-            if(view.isReminderSet()){
+            boolean isReminderSet = reminderManagedView==null
+                    ?false:reminderManagedView.isReminderSet();
+            String reminderTime = reminderManagedView==null
+                    ?null:reminderManagedView.getComposedReminderTime();
+
+            dbhander.saveTodo(view.getTodoTitle(),isReminderSet,reminderTime);
+            if(isReminderSet){
                 int recentId = dbhander.getRecentTodoId();
-                view.scheduleJob(view.getJobFor(recentId),recentId);
+                reminderManagedView.scheduleJob(reminderManagedView.getJobFor(recentId),recentId);
             }
             view.showSaveSuccessMessage();
             return;
@@ -51,12 +65,12 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
 
     @Override
     public void showDateSelection() {
-        view.showDatePickerDialog();
+        dateTimeSelectionView.showDatePickerDialog();
     }
 
     @Override
     public void showTimeSelection() {
-        view.showTimePickerDialog();
+        dateTimeSelectionView.showTimePickerDialog();
     }
 
     @Override
@@ -65,12 +79,12 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
                +cal.getDisplayName(Calendar.MONTH,Calendar.SHORT,Locale.getDefault())
                +" "+cal.get(Calendar.YEAR);
        String formattedTime = cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
-       view.setDefaultDateAndTime(formattedDate,formattedTime);
+       dateTimeSelectionView.setDefaultDateAndTime(formattedDate,formattedTime);
     }
 
     @Override
     public long getDiffTime() {
-        long diff  = view.getSetTimeInMilli()-Calendar.getInstance().getTimeInMillis();
+        long diff  = dateTimeSelectionView.getSetTimeInMilli()-Calendar.getInstance().getTimeInMillis();
         return diff>0? (int) diff :0;
     }
 
@@ -81,11 +95,11 @@ public class AddTodoPresenter implements AddTodoPresenterContract {
 
     @Override
     public Bundle getBundleForJob(int taskId) {
-        return view.getBundleForJob(view.getTodoTitle(),taskId,view.getComposedReminderTime());
+        return reminderManagedView.getBundleForJob(view.getTodoTitle(),taskId,reminderManagedView.getComposedReminderTime());
     }
 
     @Override
     public Job getJobForTask(int taskId) {
-        return view.getJobFor(taskId);
+        return reminderManagedView.getJobFor(taskId);
     }
 }
