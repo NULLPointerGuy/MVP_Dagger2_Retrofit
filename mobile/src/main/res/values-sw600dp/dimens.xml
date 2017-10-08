@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dash_tool_height">350dp</dimen>
+    <dimen name="dash_text_size">36sp</dimen>
+    <dimen name="dash_weather_text_size">24sp</dimen>
+    <dimen name="empty_text_size">32sp</dimen>
+    <dimen name="todo_list_margin">120dp</dimen>
+    <dimen name="fab_margin">32dp</dimen>
+    <dimen name="design_fab_size_normal">72dp</dimen>
+    <dimen name="cross_button_size">36dp</dimen>
+    <dimen name="create_todo_title">24sp</dimen>
+    <dimen name="reminder_text_size">24sp</dimen>
+    <dimen name="reminder_layout_text_size">18sp</dimen>
+    <dimen name="task_row_todo_title">24sp</dimen>
+    <dimen name="task_row_todo_sub_title">18sp</dimen>
+</resources>

@@ -41,7 +41,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:theme="@style/AddTodoLabel">
+                            android:theme="@style/AddTodoLabel"
+                            app:hintTextAppearance="@style/AddTodoLabel">
                         <android.support.design.widget.TextInputEditText
                                 android:id="@+id/todotitle"
                                 android:layout_width="match_parent"
@@ -73,7 +74,7 @@
             android:layout_margin="@dimen/fab_margin"
             android:padding="@dimen/fab_margin"
             android:text="@string/remindme"
-            style="?android:textAppearanceMedium"/>
+            android:textSize="@dimen/reminder_text_size"/>
 
     <LinearLayout
             android:id="@+id/reminderLayout"
@@ -90,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 tools:text="31st Aug"
+                android:textSize="@dimen/reminder_layout_text_size"
                 android:background="@android:color/transparent"
                 android:foreground="?android:attr/selectableItemBackground"/>
         <Button
@@ -98,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 tools:text="6:00 am"
+                android:textSize="@dimen/reminder_layout_text_size"
                 android:background="@android:color/transparent"
                 android:foreground="?android:attr/selectableItemBackground"/>
     </LinearLayout>

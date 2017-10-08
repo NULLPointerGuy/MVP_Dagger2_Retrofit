@@ -9,4 +9,5 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="grey">#EEE</color>
+    <color name="dash_board_tint">#88303F9F</color>
 </resources>

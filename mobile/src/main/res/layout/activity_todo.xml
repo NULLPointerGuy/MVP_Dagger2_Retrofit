@@ -31,7 +31,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:tint="#88303F9F"/>
+                            tools:src="@mipmap/launcher"
+                            android:tint="@color/dash_board_tint"/>
                     <LinearLayout
                             android:id="@+id/dashTextWrapper"
                             android:layout_width="match_parent"
@@ -47,7 +48,7 @@
                                 android:maxLines="1"
                                 tools:text="Wednesday, March 29"
                                 android:textColor="@android:color/white"
-                                style="?android:textAppearanceLarge"/>
+                                android:textSize="@dimen/dash_text_size"/>
                         <TextView
                                 android:id="@+id/dashWeather"
                                 android:layout_width="match_parent"
@@ -56,7 +57,8 @@
                                 android:visibility="invisible"
                                 tools:visibility="visible"
                                 tools:text="It's gonna be a cloudy day"
-                                android:textColor="@android:color/white"/>
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/dash_weather_text_size"/>
                     </LinearLayout>
                 </FrameLayout>
             </android.support.v7.widget.Toolbar>
@@ -67,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/press_plus"
-                style="?android:textAppearanceMedium"
+                android:textSize="@dimen/empty_text_size"
                 android:layout_centerInParent="true"
                 />
         <android.support.v7.widget.RecyclerView
@@ -76,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/appbarLayout"
                 android:visibility="gone"
-                android:layout_margin="@dimen/fab_margin"/>
+                android:layout_margin="@dimen/todo_list_margin"/>
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton

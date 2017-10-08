@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
+            android:textSize="@dimen/task_row_todo_title"
             style="?android:textAppearanceMedium"
             tools:text="Walk the dog"/>
 
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:ellipsize="end"
+            android:textSize="@dimen/task_row_todo_sub_title"
             android:layout_marginTop="@dimen/task_detail_margin"
             tools:text="I have to walk the dog today at 5pm."/>
 

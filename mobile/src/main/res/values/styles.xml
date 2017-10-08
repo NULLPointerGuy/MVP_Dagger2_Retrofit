@@ -17,7 +17,7 @@
         <item name="colorAccent">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlActivated">@android:color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/create_todo_title</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
