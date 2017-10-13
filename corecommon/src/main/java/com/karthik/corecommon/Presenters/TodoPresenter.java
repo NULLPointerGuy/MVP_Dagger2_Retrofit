@@ -161,7 +161,7 @@ public class TodoPresenter implements TodoPresenterContract,
     }
 
     private void loadRandomImage(Unsplash unsplash) {
-        if(unsplash.getResults().size()==0)
+        if(unsplash==null || unsplash.getResults().size()==0)
             return;
         int random = new Random().nextInt(unsplash.getResults().size());
         dashBoardManagedView.loadImage(unsplash.getResults().get(random).getUrls().getSmall());

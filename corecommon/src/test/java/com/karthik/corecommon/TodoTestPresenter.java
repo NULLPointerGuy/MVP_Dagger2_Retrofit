@@ -5,10 +5,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.location.Location;
 
 import com.karthik.corecommon.APIService.ForecastAPIManager;
 import com.karthik.corecommon.APIService.UnsplashAPIManager;
+import com.karthik.corecommon.Db.CacheManagedView;
 import com.karthik.corecommon.Db.Dbhander;
 import com.karthik.corecommon.Models.Currently;
 import com.karthik.corecommon.Models.Forecast;
@@ -16,7 +18,9 @@ import com.karthik.corecommon.Models.Result;
 import com.karthik.corecommon.Models.Unsplash;
 import com.karthik.corecommon.Models.Urls;
 import com.karthik.corecommon.Presenters.TodoPresenter;
-import com.karthik.corecommon.Views.TodoAppView;
+import com.karthik.corecommon.Views.DashBoardManagedView;
+import com.karthik.corecommon.Views.TodoView;
+
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static java.util.Calendar.DAY_OF_MONTH;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.mock;
@@ -51,101 +56,96 @@ public class TodoTestPresenter {
     @Mock
     ForecastAPIManager forecastAPIManager;
     @Mock
-    FusedLocationProviderClient locationClient;
+    TodoView todoView;
     @Mock
-    TodoAppView mockView;
-    private TodoPresenter mockPresenter;
+    CacheManagedView cacheManagedView;
+    @Mock
+    DashBoardManagedView dashBoardManagedView;
+    private TodoPresenter mockTodoPresenter;
+    private FusedLocationProviderClient locationClient;
 
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
-        mockPresenter = new TodoPresenter(mockView,dbhander,unsplashAPIManager,
-                forecastAPIManager,locationClient,"its gonna be");
+        mockTodoPresenter = new TodoPresenter(todoView,cacheManagedView,
+                dashBoardManagedView, dbhander,
+                unsplashAPIManager,forecastAPIManager,
+                locationClient,"weather string");
+
     }
 
     @Test
-    public void WhenTaskIsEmptyShouldEmptyTextAndHideTaskList(){
+    public void verifyOpenAddTodoScreenCalled(){
+        mockTodoPresenter.onAddTodoClicked();
+        verify(todoView,times(1)).openAddTodoScreen();
+    }
+
+    @Test
+    public void showEmptyTextWhenTaskListIsEmpty(){
         when(dbhander.isDbEmpty()).thenReturn(true);
-        mockPresenter.loadTasks();
-        verify(mockView,times(1)).showEmptyTextAndHideTask();
+        mockTodoPresenter.loadTasks();
+        verify(todoView,times(1)).showEmptyTextAndHideTask();
     }
 
     @Test
-    public void whenTaskIsNotEmptyHideEmptyTextAndShowTaskList(){
+    public void loadTasksWhenTaskListIsNonEmpty(){
         when(dbhander.isDbEmpty()).thenReturn(false);
-        mockPresenter.loadTasks();
-        verify(mockView,times(1)).hideEmptyTextAndShowTask();
-        verify(mockView,times(1)).loadTasks(dbhander.getAllTodo());
+        mockTodoPresenter.loadTasks();
+        verify(todoView,times(1)).hideEmptyTextAndShowTask();
     }
 
-    @Test
-    public void whenAddTodoClickedOpenTodoScreen(){
-        mockPresenter.onAddTodoClicked();
-        verify(mockView,times(1)).openAddTodoScreen();
-    }
 
     @Test
-    public void verifySetDashTitle(){
-        Calendar cal = Calendar.getInstance();
-        String formatedDateString = cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
-                + ", " + cal.get(Calendar.DAY_OF_MONTH)
-                + " " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " ";
-        mockPresenter.setDashTitle();
+    public void validateComposedDashTitle(){
+        Calendar calendar = Calendar.getInstance();
+
+        String formatedDateString = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+                + ", " + calendar.get(Calendar.DAY_OF_MONTH)
+                + " " + calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " ";
+
+        mockTodoPresenter.setDashTitle();
+
         Assert.assertNotEquals(null,formatedDateString);
         Assert.assertNotEquals("",formatedDateString);
-        verify(mockView,times(1)).setDashBoardTitle(formatedDateString);
+        verify(dashBoardManagedView,times(1)).setDashBoardTitle(formatedDateString);
+
     }
 
     @Test
-    public void testStringValueOfToday(){
-        Assert.assertNotEquals(null,String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
-        Assert.assertNotEquals("",String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
+    public void verifyUnsplashImageLoadFromCache(){
+        String valueOfToday = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        when(cacheManagedView.isCachePresent(valueOfToday))
+                .thenReturn(true);
+
+        mockTodoPresenter.getUnsplashImages("nature");
+
+        verify(cacheManagedView,times(1)).getFromCache(valueOfToday);
     }
 
     @Test
-    public void loadUnsplashFromNetworkIfCacheNotPresent(){
-        when(mockView.isCachePresent(String
-                .valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))))
+    public void verifyUnsplashFromNetworkWhenCacheIsNotPresent(){
+        String valueOfToday = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        when(cacheManagedView.isCachePresent(valueOfToday))
                 .thenReturn(false);
-        mockPresenter.getUnsplashImages("random");
-        verify(unsplashAPIManager,times(1)).getPhotosList("random");
+
+        mockTodoPresenter.getUnsplashImages("nature");
+
+        verify(unsplashAPIManager,times(1)).getPhotosList("nature");
     }
 
     @Test
-    public void askLocationPermissionIfNotGranted(){
-        when(mockView.isLocationPermGranted()).thenReturn(false);
-        mockPresenter.getLocation();
-        verify(mockView,times(1)).askLocationPermission();
-    }
+    public void askLocationPermWhenNotGranted(){
+        when(dashBoardManagedView.isLocationPermGranted()).thenReturn(false);
 
+        mockTodoPresenter.getLocation();
 
-    @SuppressLint("MissingPermission")
-    @Test
-    public void getLocationDetailsIfPermissionGranted(){
-        when(mockView.isLocationPermGranted()).thenReturn(true);
-        Task<Location> task = mock(Task.class);
-        when(locationClient.getLastLocation()).thenReturn(task);
-        mockPresenter.getLocation();
-        verify(locationClient,times(1)).getLastLocation();
+        verify(dashBoardManagedView,times(1)).askLocationPermission();
     }
 
     @Test
-    public void onNullResponseOfUnsplash(){
-        Unsplash nullUnsplash = null;
-        mockPresenter.onSuccess(nullUnsplash);
-        verify(mockView,never()).saveInCache("dummy","dummy");
-    }
+    public void verifyUnsplashImagesAreSavedInCache(){
+        String valueOfToday = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
-    @Test
-    public void onEmptyResponseOfUnsplash(){
-        Unsplash unsplash = new Unsplash();
-        unsplash.setResults(Collections.<Result>emptyList());
-        mockPresenter.onSuccess(unsplash);
-        verify(mockView,never()).saveInCache("dummy",new Gson().toJson(unsplash));
-    }
-
-    @Test
-    public void onActualResponseOfUnsplash(){
         Unsplash unsplash = new Unsplash();
         Result results = new Result();
         Urls urls = new Urls();
@@ -154,42 +154,38 @@ public class TodoTestPresenter {
         List<Result> resultList = new ArrayList<>();
         resultList.add(results);
         unsplash.setResults(resultList);
-        mockPresenter.onSuccess(unsplash);
-        verify(mockView,times(1))
-                .saveInCache(String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+
+        mockTodoPresenter.onSuccess(unsplash);
+
+        verify(cacheManagedView,times(1))
+                .saveInCache(valueOfToday,
                         "{\"results\":[{\"urls\":{\"small\":\"https://dummyurl.api.com\"}}]}");
     }
 
     @Test
-    public void onNullResponseofForecast(){
-        Forecast forecast = null;
-        TodoPresenter spyPresenter = Mockito.spy(mockPresenter);
-        spyPresenter.success(forecast);
-        verify(mockView,never()).setForeCastInfo(null);
-        verify(spyPresenter,times(1)).getUnsplashImages("nature");
+    public void verifyWhenUnsplashIsNullNotSavedInCache(){
+        mockTodoPresenter.onSuccess(null);
+
+        verify(cacheManagedView,times(0)).saveInCache(any(String.class),
+                any(String.class));
     }
 
     @Test
-    public void onEmptyResponseOfForecast(){
-        Forecast forecast = mock(Forecast.class);
-        TodoPresenter spyPresenter = Mockito.spy(mockPresenter);
-        spyPresenter.success(forecast);
-        verify(mockView,never()).setForeCastInfo(null);
-        verify(spyPresenter,times(1)).getUnsplashImages("nature");
+    public void verifyForecastInfoNotSetWhenResponseisNUll(){
+        mockTodoPresenter.success(null);
+
+        verify(dashBoardManagedView,times(0)).setForeCastInfo(any(String.class));
     }
 
     @Test
-    public void onActualResponseOfForecast(){
+    public void verifyForecastSetOnResponse(){
         Forecast forecast = mock(Forecast.class);
         Currently currently = mock(Currently.class);
         when(currently.getIcon()).thenReturn("cloudy");
         when(forecast.getCurrently()).thenReturn(currently);
 
-        TodoPresenter spyPresenter = Mockito.spy(mockPresenter);
-        spyPresenter.success(forecast);
+        mockTodoPresenter.success(forecast);
 
-        verify(spyPresenter,times(1)).getUnsplashImages("cloudy");
-        verify(mockView,times(1)).setForeCastInfo("its gonna be");
+        verify(dashBoardManagedView,times(1)).setForeCastInfo(any(String.class));
     }
-
 }
