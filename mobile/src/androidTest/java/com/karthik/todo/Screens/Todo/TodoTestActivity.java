@@ -16,14 +16,12 @@ import org.junit.runner.RunWith;
 
 import io.realm.Realm;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 
@@ -35,8 +33,9 @@ import static org.hamcrest.Matchers.is;
 public class TodoTestActivity {
     private Dbhander dbhander;
     private Realm realmdb;
+
     @Rule
-    public ActivityTestRule<TodoActivity> mTasksActivityTestRule =
+    public ActivityTestRule<TodoActivity> tasksActivityTestRule =
             new ActivityTestRule<>(TodoActivity.class);
 
     @Before
@@ -73,7 +72,7 @@ public class TodoTestActivity {
     }
 
     private void relaunchActivity() {
-        mTasksActivityTestRule.finishActivity();
-        mTasksActivityTestRule.launchActivity(new Intent(Intent.ACTION_MAIN));
+        tasksActivityTestRule.finishActivity();
+        tasksActivityTestRule.launchActivity(new Intent(Intent.ACTION_MAIN));
     }
 }
