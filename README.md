@@ -20,3 +20,6 @@ SDK initialisations's etc.It's wise to keep it inside corecommon.
 Naturally because of TodoApp and Module class's being resided in corecommon, TodoComponent
 which is the main entry point for Dagger's graph, resides in corecommon.
 Because of this reason alone other module components cannot be subcomponent of TodoComponent.
+
+**Please Note:**<br/>
+Add Unsplash and Forecast api keys in the CoreCommon build.gradle.
