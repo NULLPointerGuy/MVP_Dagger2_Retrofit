@@ -19,7 +19,14 @@ And also because TodoApp class(which extends application) is used commonly acros
 SDK initialisations's etc.It's wise to keep it inside corecommon.
 Naturally because of TodoApp and Module class's being resided in corecommon, TodoComponent
 which is the main entry point for Dagger's graph, resides in corecommon.
-Because of this reason alone other module components cannot be subcomponent of TodoComponent.
+Because of this reason alone other module components cannot be subcomponent of TodoComponent, instead they depend on the Todocomponent and the relevant module.
+
+**Segregation of Views:**<br/>
+Todoview had to be common for wear mobile and tablet, displaying image based on weather info 
+from the forecast api were not available inside wear, hence i had to segregate the todoview as shown in the diagram,
+So that the modules themselves decide which view they are going to implement.
+
+![alt tag](https://github.com/NULLPointerGuy/Todo/blob/master/assets/viewsegregation.png)
 
 **Please Note:**<br/>
 Add Unsplash and Forecast api keys in the CoreCommon build.gradle.
