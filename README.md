@@ -1,6 +1,7 @@
 # Todo App
-Simple todo application that uses MVP architecture, JUnit for unit testing
+(i)Simple todo application that uses MVP architecture, JUnit for unit testing
 and Expresso for integration testing.
+(ii)Uses same presenter for wear tablet and mobile phone.
 
 # Structure
 -----------
